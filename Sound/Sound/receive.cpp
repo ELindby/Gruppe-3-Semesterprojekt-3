@@ -31,7 +31,6 @@ receive::receive(){
 receive::~receive(){}
 
 float receive::goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data) {
-	#define PI acos(-1.0)
 
 	int     k, i;
 	float   floatnumSamples;
@@ -55,7 +54,5 @@ float receive::goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, u
 	magnitude = sqrtf(pow(q1, 2) + pow(q2, 2) - q1 * q2 * coeff);
 	return magnitude;
 
-	// Test af Github
 	// Needs to return true or false, when threshold is determined.
 }
-

@@ -8,6 +8,9 @@
 #include <sstream>
 #include <bitset>
 #include <cassert>
+
+#define PI acos(-1.0)
+
 class receive
 {
 public:
