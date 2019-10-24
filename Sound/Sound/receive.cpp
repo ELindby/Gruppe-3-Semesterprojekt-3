@@ -55,6 +55,7 @@ float receive::goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, u
 	magnitude = sqrtf(pow(q1, 2) + pow(q2, 2) - q1 * q2 * coeff);
 	return magnitude;
 
+	// Test af Github
 	// Needs to return true or false, when threshold is determined.
 }
 
