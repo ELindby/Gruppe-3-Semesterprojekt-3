@@ -1,0 +1,6 @@
+﻿  receive.cpp
+c:\users\nicol\desktop\sound\sound\receive.cpp(21): warning C4244: 'initializing': conversion from 'sf::Uint64' to 'size_t', possible loss of data
+c:\users\nicol\desktop\sound\sound\receive.cpp(42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\desktop\sound\sound\receive.cpp(45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\desktop\sound\sound\receive.cpp(50): warning C4018: '<': signed/unsigned mismatch
+  Sound.vcxproj -> C:\Users\nicol\Desktop\Sound\Debug\Sound.exe
