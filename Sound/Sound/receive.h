@@ -19,5 +19,4 @@ public:
 
 	float goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data);
 
-
 };
