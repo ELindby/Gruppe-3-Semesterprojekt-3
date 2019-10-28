@@ -1,0 +1,9 @@
+﻿  main.cpp
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(185,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(187,26): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(187,26): warning C4244:         with
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(187,26): warning C4244:         [
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(187,26): warning C4244:             _Ty=int
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(187,26): warning C4244:         ]
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\main.cpp(221,23): warning C4018: '<': signed/unsigned mismatch
+  GoertzelAlgorithm.vcxproj -> C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\GoertzelAlgorithm\Debug\GoertzelAlgorithm.exe

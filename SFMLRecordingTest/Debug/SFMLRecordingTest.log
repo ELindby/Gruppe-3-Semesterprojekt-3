@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\SFMLRecordingTest\main.cpp(119,24): warning C4244: 'initializing': conversion from 'sf::Uint64' to 'size_t', possible loss of data
+  SFMLRecordingTest.vcxproj -> C:\Users\Ida\OneDrive\Dokumenter\SDU\3. Semester\3. Semesterprojekt\Programmering\SFMLRecordingTest\Debug\SFMLRecordingTest.exe
