@@ -1,0 +1,8 @@
+﻿  receive.cpp
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(21): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(27): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(41): warning C4244: 'initializing': conversion from 'sf::Uint64' to 'size_t', possible loss of data
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(88): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(91): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\jonathan\source\repos\sound\sound\receive.cpp(96): warning C4018: '<': signed/unsigned mismatch
+  Sound.vcxproj -> C:\Users\Jonathan\source\repos\Sound\Debug\Sound.exe
