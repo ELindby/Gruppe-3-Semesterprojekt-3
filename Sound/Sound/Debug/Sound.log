@@ -1,1 +1,10 @@
-﻿  Sound.vcxproj -> C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\Sound\Debug\Sound.exe
+﻿  main.cpp
+  receive.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(40): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(46): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(60): warning C4244: 'initializing': conversion from 'sf::Uint64' to 'size_t', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(107): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(112): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Sound.vcxproj -> C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\Sound\Debug\Sound.exe

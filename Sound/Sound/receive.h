@@ -8,8 +8,11 @@
 #include <sstream>
 #include <bitset>
 #include <cassert>
+#include <iomanip>
+#include <iterator>
 
 #define PI acos(-1.0)
+#define TWO_PI 2 * acos(-1.0)
 
 class receive
 {
