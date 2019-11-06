@@ -45,7 +45,7 @@ receive::receive(){
 
 	// finding the highest frequencies
 	HigestFreq(bufferR);
-	std::cout << '\n' << "Higest: " << highL << " & " << highH << std::endl;
+	std::cout << '\n' << "Highest: " << highL << " & " << highH << std::endl;
 
 	system("pause");
 }
