@@ -1,62 +1,59 @@
 #include "receive.h"
 
 receive::receive(){
-	//assert(sf::SoundBufferRecorder::isAvailable());
+	assert(sf::SoundBufferRecorder::isAvailable());
 
-	//// Recording sound
-	//sf::SoundBufferRecorder recorder;
-	//recorder.start();
-	//std::cout << "Recording" << std::endl;
-	//Sleep(1000);
-	//recorder.stop();
-	//std::cout << "Recording stopped" << std::endl;
+	// Recording sound
+	sf::SoundBufferRecorder recorder;
+	recorder.start();
+	std::cout << "Recording" << std::endl;
+	Sleep(1000);
+	recorder.stop();
+	std::cout << "Recording stopped" << std::endl;
 
-	//// Playing recorded sound
-	//const sf::SoundBuffer& buffer = recorder.getBuffer();
+	// Playing recorded sound
+	const sf::SoundBuffer& bufferR = recorder.getBuffer();
 	//sf::Sound sound(buffer);
 	//sound.play();
 
-	//// Gathering and displaying information - samples, sample rate and block size
-	//const sf::Int16* samples = buffer.getSamples();
-	//std::size_t sampleSize = buffer.getSampleCount();
-	//unsigned int sampleRate = buffer.getSampleRate();
 
-	//float DetectedFreq = goertzel(sampleSize, 400, sampleRate, samples);
-
-	//// For test
-	//std::cout << sampleRate << '\n' << sampleSize << '\n' << DetectedFreq << std::endl;
-
+	// Generating sound
+	float H = 1209, L = 941;
 
 	const unsigned SAMPLES = 44100;
 	const unsigned SAMPLE_RATE = 44100; // number of samples processed in 1 sec (time domain)
-										// numbers should match
 	const unsigned AMPLITUDE = 30000;
-
 	sf::Int16 raw[SAMPLES];
 
-	const double hz1336 = 1336. / SAMPLE_RATE; // Frequency
+	const double hz1336 = H / SAMPLE_RATE; // frequency
 	double x = 0;
 	for (unsigned i = 0; i < SAMPLES; i++) {
 		raw[i] = AMPLITUDE * sin(x * TWO_PI);
 		x += hz1336;
 	}
-
-	const double hz770 = 770. / SAMPLE_RATE;
+	const double hz770 = L / SAMPLE_RATE;  // frequency
 	double y = 0;
 	for (unsigned i = 0; i < SAMPLES; i++) {
 		raw[i] = (raw[i] + (AMPLITUDE * sin(y * TWO_PI))) / 2;
 		y += hz770;
 	}
-
-	sf::SoundBuffer buffer;		// SoundBuffer class contains sound
-	if (!buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {	// mono
+	sf::SoundBuffer bufferG;
+	if (!bufferG.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
 		std::cerr << "Loading failed!" << std::endl;
 	}
 
-	//// Playing recorded sound
-	//sf::Sound sound(buffer);
-	//sound.play();
 
+	// finding the highest frequencies
+	HigestFreq(bufferR);
+	std::cout << '\n' << "Higest: " << highL << " & " << highH << std::endl;
+
+	system("pause");
+}
+
+receive::~receive(){}
+
+void receive::HigestFreq(const sf::SoundBuffer buffer)
+{
 	const sf::Int16* samples = buffer.getSamples();
 	std::size_t sampleSize = buffer.getSampleCount();
 	unsigned int sampleRate = buffer.getSampleRate();
@@ -64,52 +61,33 @@ receive::receive(){
 	// For test
 	std::cout << sampleRate << '\n' << sampleSize << '\n' << std::endl;
 
-	float DetectedFreq1 = goertzel(sampleSize, 697, sampleRate, samples);
-	float DetectedFreq2 = goertzel(sampleSize, 770, sampleRate, samples);
-	float DetectedFreq3 = goertzel(sampleSize, 852, sampleRate, samples);
-	float DetectedFreq4 = goertzel(sampleSize, 941, sampleRate, samples);
-	float DetectedFreq5 = goertzel(sampleSize, 1209, sampleRate, samples);
-	float DetectedFreq6 = goertzel(sampleSize, 1336, sampleRate, samples);
-	float DetectedFreq7 = goertzel(sampleSize, 1477, sampleRate, samples);
-	float DetectedFreq8 = goertzel(sampleSize, 1633, sampleRate, samples);
-	
-	std::cout << std::setprecision(15) << "697:  " << DetectedFreq1 << std::endl;
-	std::cout << std::setprecision(15) << "770:  " << DetectedFreq2 << std::endl;
-	std::cout << std::setprecision(15) << "852:  " << DetectedFreq3 << std::endl;
-	std::cout << std::setprecision(15) << "941:  " << DetectedFreq4 << std::endl;
-	std::cout << std::setprecision(15) << "1209: " << DetectedFreq5 << std::endl;
-	std::cout << std::setprecision(15) << "1336: " << DetectedFreq6 << std::endl;
-	std::cout << std::setprecision(15) << "1477: " << DetectedFreq7 << std::endl;
-	std::cout << std::setprecision(15) << "1633: " << DetectedFreq8 << std::endl;
+	// Detect two higest frequencies
+	std::vector<float> magnitudesL, magnitudesH;
 
+	for (int a = 0; a < 4; a++) {
+		magnitudesL.push_back(Goertzel(sampleSize, DTMFtones[a], sampleRate, samples));
+		std::cout << DTMFtones[a] << ":  " << magnitudesL.at(a) << std::endl;
 
-
-	//std::vector<float> magnitudes;
-
-	//for (int a = 1; a < 2000; a++)
-	//{
-	//	magnitudes.push_back(goertzel(sampleSize, a, sampleRate, samples));
-
-	//	std::cout << a << ":" << magnitudes.at(a - 1) << std::endl;
-	//}
-
-	//float max = *max_element(magnitudes.begin(), magnitudes.end());
-
-	//std::cout << "Highest amplitude: " << std::distance(magnitudes.begin(), max_element(magnitudes.begin(), magnitudes.end())) + 1 << "Hz : " << max << std::endl;
-
-	////sort(magnitudes.begin(), magnitudes.end(), [](float x, float y) {return x > y; });
-
-	////std::cout << magnitudes.at(1);
-
-
-
-
-
-	system("pause");
+		magnitudesH.push_back(Goertzel(sampleSize, DTMFtones[a + 4], sampleRate, samples));
+		std::cout << DTMFtones[a + 4] << ": " << magnitudesH.at(a) << std::endl;
+	}
+	float maxL = 0, maxH = 0;
+	int indexL, indexH;
+	for (unsigned int i = 0; i < 4; i++) {
+		if (magnitudesL[i] > maxL) {
+			maxL = magnitudesL[i];
+			indexL = i;
+		}
+		if (magnitudesH[i] > maxH) {
+			maxH = magnitudesH[i];
+			indexH = i + 4;
+		}
+	}
+	highL = DTMFtones[indexL];
+	highH = DTMFtones[indexH];
 }
-receive::~receive(){}
 
-float receive::goertzel(std::size_t numSamples, unsigned int targetFrequency, unsigned int sampleRate, const sf::Int16* data) {
+float receive::Goertzel(std::size_t numSamples, unsigned int targetFrequency, unsigned int sampleRate, const sf::Int16* data) {
 
 	int     k, i;
 	float   floatnumSamples;
@@ -131,6 +109,4 @@ float receive::goertzel(std::size_t numSamples, unsigned int targetFrequency, un
 	}
 	magnitude = sqrtf(pow(q1, 2) + pow(q2, 2) - q1 * q2 * coeff);
 	return magnitude;
-
-	// Needs to return true or false, when threshold is determined.
 }

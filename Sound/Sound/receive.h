@@ -20,5 +20,10 @@ public:
 	receive();
 	~receive();
 
-	float goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data);
+	void HigestFreq(const sf::SoundBuffer buffer);
+	float Goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data);
+
+private:
+	const std::vector<int> DTMFtones{ 697, 770, 852, 941, 1209, 1336, 1477, 1633 };
+	int highL, highH;
 };
