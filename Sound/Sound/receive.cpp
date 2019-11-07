@@ -13,8 +13,11 @@ receive::receive(){
 
 	// Playing recorded sound
 	const sf::SoundBuffer& bufferR = recorder.getBuffer();
-	//sf::Sound sound(buffer);
+	sf::Sound sound(bufferR);
+	//sound.setLoop(true);
 	//sound.play();
+	//// Play tone for some time
+	//sf::sleep(sf::milliseconds(1000));
 
 
 	// Generating sound
@@ -59,7 +62,7 @@ void receive::HigestFreq(const sf::SoundBuffer buffer)
 	unsigned int sampleRate = buffer.getSampleRate();
 
 	// For test
-	std::cout << sampleRate << '\n' << sampleSize << '\n' << std::endl;
+	//std::cout << sampleRate << '\n' << sampleSize << '\n' << std::endl;
 
 	// Detect two higest frequencies
 	std::vector<float> magnitudesL, magnitudesH;

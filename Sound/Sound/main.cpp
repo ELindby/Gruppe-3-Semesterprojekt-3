@@ -1,6 +1,5 @@
 #include "send.h"
 #include "receive.h"
-
 #include <SFML/Audio.hpp>
 #include <math.h>
 #include <iostream>
@@ -32,4 +31,3 @@ int main() {
 
 // Optimize speed - there is a pause between different characters, 
 // might be desired, might not be. PlaySound is what makes it slow.
-// Make classes
