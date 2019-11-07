@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ApplikationsLag">
+      <UniqueIdentifier>{5fec2a01-44d1-483b-b927-d4b9c4bd76f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ApplikationsLag">
+      <UniqueIdentifier>{6d1f1d14-c18d-46c5-b552-d3eef7770566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataLinkLag">
+      <UniqueIdentifier>{b222e3c4-d560-4709-93c6-c8473f98a97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FysiskLag">
+      <UniqueIdentifier>{cb016ff2-f9c3-4a0d-b8ba-9b6a35b62497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataLinkLag">
+      <UniqueIdentifier>{0792dba4-bb98-4b8f-b4cc-08095101c4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FysiskLag">
+      <UniqueIdentifier>{28a7187b-a898-490e-add6-7f1c36edc7ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplikationsLag.cpp">
+      <Filter>Source Files\ApplikationsLag</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLinkLag.cpp">
+      <Filter>Source Files\DataLinkLag</Filter>
+    </ClCompile>
+    <ClCompile Include="FysiskLag.cpp">
+      <Filter>Source Files\FysiskLag</Filter>
+    </ClCompile>
+    <ClCompile Include="DTMFConverter.cpp">
+      <Filter>Source Files\FysiskLag</Filter>
+    </ClCompile>
+    <ClCompile Include="ToneGenerator.cpp">
+      <Filter>Source Files\FysiskLag</Filter>
+    </ClCompile>
+    <ClCompile Include="CRC.cpp">
+      <Filter>Source Files\DataLinkLag</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ApplikationsLag.h">
+      <Filter>Header Files\ApplikationsLag</Filter>
+    </ClInclude>
+    <ClInclude Include="DataLinkLag.h">
+      <Filter>Header Files\DataLinkLag</Filter>
+    </ClInclude>
+    <ClInclude Include="FysiskLag.h">
+      <Filter>Header Files\FysiskLag</Filter>
+    </ClInclude>
+    <ClInclude Include="DTMFConverter.h">
+      <Filter>Header Files\FysiskLag</Filter>
+    </ClInclude>
+    <ClInclude Include="ToneGenerator.h">
+      <Filter>Header Files\FysiskLag</Filter>
+    </ClInclude>
+    <ClInclude Include="CRC.h">
+      <Filter>Header Files\DataLinkLag</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
