@@ -20,14 +20,20 @@ bool DTMFRecorder::onStart()
 
 bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampleCount)
 {
-	std::vector<float> magnitudesL, magnitudesH;
+	// Apply Hann smoothing
+	std::vector<int> windowedSignal;
 
-
+	for (int i = 0; i < sampleCount; i++) {
+		double multiplier = 0.5 * (1 - cos(2 * pi*i / (sampleCount-1)));
+		windowedSignal.push_back(multiplier * samples[i]);
+	}
 
 	// Perform Goertzel algorithm for all DTMF frequencies
+	std::vector<float> magnitudesL, magnitudesH;
+
 	for (int a = 0; a < 4; a++) {
-		magnitudesL.push_back(goertzel(sampleCount, DTMFtones[a], sampleRate, samples));
-		magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, samples));
+		magnitudesL.push_back(goertzel(sampleCount, DTMFtones[a], sampleRate, windowedSignal));
+		magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, windowedSignal));
 	}
 
 	// threshold bør være summen af alle magnitude / 4
@@ -55,7 +61,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 
 }
 
-float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16 * samples)
+float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, std::vector<int>&windowedSignal)
 {
 	int     k, i;
 	float   floatnumSamples;
@@ -72,7 +78,7 @@ float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUE
 	q2 = 0;
 
 	for (i = 0; i < sampleCount; i++) {
-		q0 = coeff * q1 - q2 + samples[i];
+		q0 = coeff * q1 - q2 + windowedSignal[i];
 		q2 = q1;
 		q1 = q0;
 	}

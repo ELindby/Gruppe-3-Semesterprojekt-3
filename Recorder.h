@@ -9,7 +9,9 @@ public:
 
 	virtual bool onStart();
 	virtual bool onProcessSamples(const sf::Int16* samples, std::size_t sampleCount);
-	float goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data);
+	float goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, std::vector<int>&windowedSignal);
+
+
 
 private:
 	int sampleRate = 8000;

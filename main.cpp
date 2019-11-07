@@ -26,7 +26,7 @@ int main() {
 	// Start recorder
 	recorder.start(8000); // argument = samplerate
 
-	Sleep(5000);
+	Sleep(10000);
 
 	return 0;
 }
