@@ -20,13 +20,38 @@ bool DTMFRecorder::onStart()
 
 bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampleCount)
 {
-	const int constantSampleCount = sampleCount;
+	std::vector<float> magnitudesL, magnitudesH;
 
-	// int hammingWindow[constantSampleCount];
 
-	std::cout << goertzel(sampleCount, 800, 44100, samples) << std::endl;
 
-	return true;
+	// Perform Goertzel algorithm for all DTMF frequencies
+	for (int a = 0; a < 4; a++) {
+		magnitudesL.push_back(goertzel(sampleCount, DTMFtones[a], sampleRate, samples));
+		magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, samples));
+	}
+
+	// threshold bør være summen af alle magnitude / 4
+
+	// Find index of the highest frequency
+	float freqL = 0, freqH = 0;
+	int indexL = 0, indexH = 0;
+
+	for (unsigned int i = 0; i < 4; i++) {
+		if (magnitudesL[i] > freqL) {
+			freqL = magnitudesL[i];
+			indexL = i;
+		}
+		if (magnitudesH[i] > freqH) {
+			freqH = magnitudesH[i];
+			indexH = i + 4;
+		}
+	}
+	freqL = DTMFtones[indexL];
+	freqH = DTMFtones[indexH];
+
+	std::cout << freqL << std::endl << freqH << std::endl << std::endl;;
+
+	return true; // continue recording
 
 }
 
@@ -53,9 +78,4 @@ float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUE
 	}
 	magnitude = sqrtf(pow(q1, 2) + pow(q2, 2) - q1 * q2 * coeff);
 	return magnitude;
-}
-
-int * DTMFRecorder::hammingWindow(int * window)
-{
-	return nullptr;
 }
