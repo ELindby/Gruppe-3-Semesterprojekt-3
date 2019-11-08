@@ -3,8 +3,6 @@
 #include <cassert>
 #include <iostream>
 
-#ifndef DTMFCONVERTER_H
-#define DTMFCONVERTER_H
 
 class DTMFConverter : public FysiskLag
 {
@@ -16,4 +14,3 @@ public:
 	int LowToneFrequency(char low);
 	int HighToneFrequency(char high);
 };
-#endif // DTMFCONVERTER_H

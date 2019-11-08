@@ -3,9 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 
-#ifndef TONEGENERATOR_H
-#define TONEGENERATOR_H
-
 class ToneGenerator : public FysiskLag
 {
 public:
@@ -14,4 +11,3 @@ public:
 
 	void PlaySound();
 };
-#endif // !TONEGENERATOR_H
