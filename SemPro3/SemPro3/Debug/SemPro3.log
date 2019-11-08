@@ -1,4 +1,9 @@
-﻿  ApplikationsLag.cpp
+﻿  DTMFConverter.cpp
+  FysiskLag.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\fysisklag.cpp(9): error C2082: redefinition of formal parameter 'input'
   main.cpp
+  ToneGenerator.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\tonegenerator.cpp(23): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\tonegenerator.cpp(26): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
   Generating Code...
-  SemPro3.vcxproj -> C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\SemPro3\Debug\SemPro3.exe
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\dtmfconverter.cpp(53): warning C4715: 'DTMFConverter::HighToneFrequency': not all control paths return a value
