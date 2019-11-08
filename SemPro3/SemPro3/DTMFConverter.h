@@ -1,10 +1,10 @@
 #pragma once
-#include "FysiskLag.h"
+#include "PhysicalLayer.h"
 #include <cassert>
 #include <iostream>
 
 
-class DTMFConverter : public FysiskLag
+class DTMFConverter : public PhysicalLayer
 {
 public:
 	DTMFConverter();

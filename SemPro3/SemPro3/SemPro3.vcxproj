@@ -123,20 +123,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ApplikationsLag.cpp" />
+    <ClCompile Include="ApplicationLayer.cpp" />
     <ClCompile Include="CRC.cpp" />
-    <ClCompile Include="DataLinkLag.cpp" />
+    <ClCompile Include="DataLinkLayer.cpp" />
     <ClCompile Include="DTMFConverter.cpp" />
-    <ClCompile Include="FysiskLag.cpp" />
+    <ClCompile Include="PhysicalLayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ToneGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplikationsLag.h" />
+    <ClInclude Include="ApplicationLayer.h" />
     <ClInclude Include="CRC.h" />
-    <ClInclude Include="DataLinkLag.h" />
+    <ClInclude Include="DataLinkLayer.h" />
     <ClInclude Include="DTMFConverter.h" />
-    <ClInclude Include="FysiskLag.h" />
+    <ClInclude Include="PhysicalLayer.h" />
     <ClInclude Include="ToneGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,6 @@
-#include "ApplikationsLag.h"
-#include "DataLinkLag.h"
-#include "FysiskLag.h"
+#include "ApplicationLayer.h"
+#include "DataLinkLayer.h"
+#include "PhysicalLayer.h"
 
 #pragma once
 #include <SFML/Audio.hpp>
@@ -19,7 +19,7 @@ int main() {
 	}
 	// Play entered chars as DTMF tones
 	for (size_t i = 0; i < chars.size(); i++) {
-		FysiskLag message(chars[i]);
+		PhysicalLayer message(chars[i]);
 	}
 	system("pause");
 
