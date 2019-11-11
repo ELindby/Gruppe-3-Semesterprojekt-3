@@ -1,5 +1,6 @@
 #include "Recorder.h"
 #include <iostream>
+#include <numeric>
 
 const double pi = 3.14159265358979323846;
 
@@ -14,7 +15,7 @@ DTMFRecorder::~DTMFRecorder()
 
 bool DTMFRecorder::onStart()
 {
-	setProcessingInterval(sf::milliseconds(100)); // Process data in intervals of 100 ms
+	setProcessingInterval(sf::milliseconds(400)); // Process data in intervals of 100 ms
 	return true;
 }
 
@@ -36,11 +37,9 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, windowedSignal));
 	}
 
-	// threshold bør være summen af alle magnitude / 4
-
 	// Find index of the highest frequency
 	float freqL = 0, freqH = 0;
-	int indexL = 0, indexH = 0;
+	int indexL = 0, indexH = 4;
 
 	for (unsigned int i = 0; i < 4; i++) {
 		if (magnitudesL[i] > freqL) {
@@ -55,7 +54,36 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	freqL = DTMFtones[indexL];
 	freqH = DTMFtones[indexH];
 
-	std::cout << freqL << std::endl << freqH << std::endl << std::endl;;
+	// Calculate magnitude threshold
+	float sum_of_magnitudes;
+	sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
+
+
+	if (magnitudesL[indexL] > magnitudesH[indexH-4])
+	{
+		if (magnitudesL[indexL] > (sum_of_magnitudes / 4) && magnitudesH[indexH - 4] > (magnitudesL[indexL]/2))
+		{
+			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
+		}
+	}
+
+	if (magnitudesL[indexL] < magnitudesH[indexH - 4])
+	{
+		if (magnitudesH[indexH-4] > (sum_of_magnitudes / 4) && (magnitudesH[indexH - 4]/2) < magnitudesL[indexL])
+		{
+			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
+		}
+	}
+
+
+	// std::cout << sum_of_magnitudes << std::endl;
+
+	//// if start signal is recorded -> do something
+	//if (freqL == 941 && freqH == 1477)
+	//{
+	//	std::cout << "nemlig";
+	//	return false;
+	//}
 
 	return true; // continue recording
 

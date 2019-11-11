@@ -1,6 +1,7 @@
 #include "send.h"
 #include "receive.h"
 #include "Recorder.h"
+#include "SoundGenerator.h"
 
 #include <SFML/Audio.hpp>
 #include <math.h>
@@ -13,7 +14,6 @@
 #include <iomanip>
 
 int main() {
-
 	// Check that audio is available
 	if (!sf::SoundRecorder::isAvailable())
 	{
@@ -21,11 +21,18 @@ int main() {
 	}
 
 	// create the recorder
-	DTMFRecorder recorder; 
+	DTMFRecorder recorder;
 
 	// Start recorder
 	recorder.start(8000); // argument = samplerate
 
+	// Message input
+	std::string input;
+	getline(std::cin, input);
+
+	SoundGenerator message(input);
+
+	//Keep program from closing
 	Sleep(10000);
 
 	return 0;
