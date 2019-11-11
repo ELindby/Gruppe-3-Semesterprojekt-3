@@ -4,7 +4,7 @@ PhysicalLayer::PhysicalLayer() {}
 PhysicalLayer::~PhysicalLayer() {}
 
 PhysicalLayer::PhysicalLayer(char input) {
-	DTMFConverter(input);
+	DTMFConverter converter(input, *lowDTMFL, *lowDTMFU, *highDTMFL, *highDTMFU);
 	ToneGenerator();
 }
 

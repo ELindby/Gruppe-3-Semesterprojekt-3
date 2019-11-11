@@ -10,5 +10,10 @@ public:
 	PhysicalLayer(char input);
 
 protected:
-	int lowDTMFL, highDTMFL, lowDTMFU, highDTMFU;
+	int LL = 0, HL = 0, LU = 0, HU = 0;
+
+	int* lowDTMFL = &LL;
+	int* highDTMFL = &HL;
+	int* lowDTMFU = &LU;
+	int* highDTMFU = &HU;
 };

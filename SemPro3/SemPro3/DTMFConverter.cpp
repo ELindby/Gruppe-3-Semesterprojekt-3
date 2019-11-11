@@ -3,7 +3,7 @@
 DTMFConverter::DTMFConverter() {}
 DTMFConverter::~DTMFConverter() {}
 
-DTMFConverter::DTMFConverter(char input) {
+DTMFConverter::DTMFConverter(char input, int lowDTMFL, int lowDTMFU, int highDTMFL, int highDTMFU) {
 	// Masks upper and lower nipple of ASCII byte
 	char lowerNipple = 0b00001111 & input;
 	char upperNipple = (0b11110000 & input) >> 4;

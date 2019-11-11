@@ -1,9 +1,8 @@
 #pragma once
-#include "PhysicalLayer.h"
 #include <SFML/Audio.hpp>
 #include <iostream>
 
-class ToneGenerator : public PhysicalLayer
+class ToneGenerator
 {
 public:
 	ToneGenerator();
