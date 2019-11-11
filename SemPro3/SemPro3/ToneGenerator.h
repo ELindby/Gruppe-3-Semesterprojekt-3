@@ -7,6 +7,6 @@ class ToneGenerator
 public:
 	ToneGenerator();
 	~ToneGenerator();
-
-	void PlaySound();
+	ToneGenerator(int lowDTMFL, int lowDTMFU, int highDTMFL, int highDTMFU);
+	void PlaySound(int lowDTMFL, int lowDTMFU, int highDTMFL, int highDTMFU);
 };
