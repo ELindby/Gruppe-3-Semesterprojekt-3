@@ -52,8 +52,6 @@ void SoundGenerator::convertToDTMF(std::string& input)
 		//std::cout << lowDTMFU << '\t' << highDTMFU << std::endl;
 	}
 
-	std::cout << lowFrequencies.size();
-
 	//Play DTMF tones
 	PlaySound(lowFrequencies, highFrequencies);
 }
@@ -73,7 +71,7 @@ int SoundGenerator::lowtoneFrequency(char low) {
 	return lowDTMF = 941;
 }
 
-	int SoundGenerator::hightoneFrequency(char high) {
+int SoundGenerator::hightoneFrequency(char high) {
 		assert(high < 16);
 		int highDTMF = 0;
 		int col = (high + 1) % 4;
@@ -82,12 +80,16 @@ int SoundGenerator::lowtoneFrequency(char low) {
 		{
 		case 1:
 			return highDTMF = 1209;
+			break;
 		case 2:
 			return highDTMF = 1336;
+			break;
 		case 3:
 			return highDTMF = 1477;
+			break;
 		case 0:
 			return highDTMF = 1633;
+			break;
 		}
 
 }

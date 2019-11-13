@@ -38,7 +38,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	}
 
 	// Find index of the highest frequency
-	float freqL = 0, freqH = 0;
+	int freqL = 0, freqH = 0;
 	int indexL = 0, indexH = 4;
 
 	for (unsigned int i = 0; i < 4; i++) {
@@ -64,6 +64,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		if (magnitudesL[indexL] > (sum_of_magnitudes / 4) && magnitudesH[indexH - 4] > (magnitudesL[indexL]/2))
 		{
 			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
+			saveRecording(freqL, freqH);
 		}
 	}
 
@@ -72,18 +73,15 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		if (magnitudesH[indexH-4] > (sum_of_magnitudes / 4) && (magnitudesH[indexH - 4]/2) < magnitudesL[indexL])
 		{
 			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
+			saveRecording(freqL, freqH);
 		}
 	}
 
-
-	// std::cout << sum_of_magnitudes << std::endl;
-
-	//// if start signal is recorded -> do something
-	//if (freqL == 941 && freqH == 1477)
-	//{
-	//	std::cout << "nemlig";
-	//	return false;
-	//}
+	// if start signal is recorded -> do something
+	if (freqL == 941 && freqH == 1477)
+	{
+		convertFromDTMF(recordedMessage);
+	}
 
 	return true; // continue recording
 
@@ -112,4 +110,103 @@ float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUE
 	}
 	magnitude = sqrtf(pow(q1, 2) + pow(q2, 2) - q1 * q2 * coeff);
 	return magnitude;
+}
+
+void DTMFRecorder::saveRecording(int lowFreq, int highFreq)
+{
+	// Save low frequency first, then high
+	recordedMessage.push_back(lowFreq);
+	recordedMessage.push_back(highFreq);
+}
+
+void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
+{
+	
+	std::vector<char> unwrappedMessage;
+
+	std::cout << "size:" << recordedMessage.size() << std::endl;
+
+	// Combine 4 frequencies to a single character
+	for (int i = 0; i < (recordedMessage.size() / 4); i++)
+	{
+		int binaryValue = 0b00000000;
+
+		switch (recordedMessage[i * 4])
+		{
+		case 697:
+			binaryValue = 0b00000000;
+			break;
+		case 770:
+			binaryValue = 0b00000100;
+			break;
+		case 852:
+			binaryValue = 0b00001000;
+			break;
+		case 941:
+			binaryValue = 0b00001100;
+			break;
+		}
+
+		switch (recordedMessage[i * 4 + 1])
+		{
+		case 1209:
+			binaryValue |= 0b00000000;
+			break;
+		case 1336:
+			binaryValue |= 0b00000001;
+			break;
+		case 1477:
+			binaryValue |= 0b00000010;
+			break;
+		case 1633:
+			binaryValue |= 0b00000011;
+			break;
+		}
+
+		switch (recordedMessage[i * 4 + 2])
+		{
+		case 697:
+			binaryValue |= 0b00000000;
+			break;
+		case 770:
+			binaryValue |= 0b01000000;
+			break;
+		case 852:
+			binaryValue |= 0b10000000;
+			break;
+		case 941:
+			binaryValue |= 0b11000000;
+			break;
+		}
+
+		switch (recordedMessage[i * 4 + 3])
+		{
+		case 1209:
+			binaryValue |= 0b00000000;
+			break;
+		case 1336:
+			binaryValue |= 0b00010000;
+			break;
+		case 1477:
+			binaryValue |= 0b00100000;
+			break;
+		case 1633:
+			binaryValue |= 0b00110000;
+			break;
+		}
+
+		// Save it all in a vector
+		char asChar = binaryValue;
+
+		unwrappedMessage.push_back(asChar);
+	}
+
+	// Print message
+	for (int i = 0; i < unwrappedMessage.size(); i++)
+	{
+		std::cout << unwrappedMessage[i];
+	}
+
+	std::cout << std::endl;
+
 }
