@@ -10,7 +10,7 @@ class someCrc {
 
 public:
 
-	void senderPreb(std::vector<int> messageInput)  // The vector should look like { 1, 0, 1, 0, 1, 0, 0, 0, 1 }
+	std::vector<int> senderPreb(std::vector<int> messageInput)  // The vector should look like { 1, 0, 1, 0, 1, 0, 0, 0, 1 }
 	{
 		int messageLength = messageInput.size();
 
@@ -97,7 +97,12 @@ public:
 			std::cout << finalMessage[i];
 		};
 		std::cout << "\n";
+
+		return finalMessage;
+
 	}
+
+	
 
 	void receiverCheck(std::vector<int> messageInput)
 	{
@@ -182,16 +187,17 @@ private:
 
 int main()
 {
-	std::vector<int> test = { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0 , 0, 0, 1, 0, 0, 0, 0, 1 }; //Hej!
-	std::vector<int> receiveTestCorrect = { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 };
-	std::vector<int> receiveTestError = { 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 };
+	std::vector<int> test =               { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 }; //Hej!
+	std::vector<int> receiveTestCorrect = { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 }; //Hej! With padding
+	std::vector<int> receiveTestError =   { 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 }; //Êej! With padding
 	someCrc CRC;
-	CRC.senderPreb(test);
+	//CRC.senderPreb(test);
+	CRC.receiverCheck(CRC.senderPreb(test));
 
-	std::cout << " \n Test correct:";
+	/*std::cout << " \n Test correct:";
 	CRC.receiverCheck(receiveTestCorrect);
 	std::cout << " \n \n Test with error:";
-	CRC.receiverCheck(receiveTestError);
+	CRC.receiverCheck(receiveTestError);*/
 
 
 	return 0;
