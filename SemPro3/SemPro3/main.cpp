@@ -1,8 +1,9 @@
+#pragma once
+
 #include "ApplicationLayer.h"
 #include "DataLinkLayer.h"
 #include "PhysicalLayer.h"
 
-#pragma once
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <sstream>

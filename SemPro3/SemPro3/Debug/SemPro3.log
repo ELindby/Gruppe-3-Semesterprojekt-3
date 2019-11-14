@@ -1,2 +1,10 @@
-﻿  PhysicalLayer.cpp
+﻿  DTMFConverter.cpp
+  PhysicalLayer.cpp
+  ToneGenerator.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\tonegenerator.cpp(25): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\tonegenerator.cpp(28): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+  main.cpp
+  Generating Code...
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sempro3\sempro3\dtmfconverter.cpp(53): warning C4715: 'DTMFConverter::HighToneFrequency': not all control paths return a value
+  LINK : C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\SemPro3\Debug\SemPro3.exe not found or not built by the last incremental link; performing full link
   SemPro3.vcxproj -> C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\SemPro3\Debug\SemPro3.exe
