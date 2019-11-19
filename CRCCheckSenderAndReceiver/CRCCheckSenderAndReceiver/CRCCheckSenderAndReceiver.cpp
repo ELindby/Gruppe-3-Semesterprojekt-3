@@ -174,8 +174,8 @@ public:
 
 private:
 
-	std::vector<int> generator = { 1, 1, 1, 0, 1, 1 }; //CRC-8, DVB-S2
-	int genLength = generator.size();
+	std::vector<int> generator = { 1, 1, 0, 1, 0, 1, 1, 1 }; //CRC-8-AUTOSAR
+	int genLength = generator.size(); 
 	std::vector<int> temp, CRC, finalMessage, rrem;
 	int i, k, j;
 	bool flag;
