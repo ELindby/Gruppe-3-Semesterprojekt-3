@@ -5,6 +5,7 @@
 #include <iostream>
 #include <conio.h>
 #include <vector>
+#include <bitset> 
 
 class someCrc {
 
@@ -39,7 +40,7 @@ public:
 		std::cout << "\n";
 
 		for (int i = 0; i < messageLength; i++) //Bitwise division
-		{ // Her ligger fejlen!
+		{ 
 			if (generator[0] == temp[i])
 			{
 				for (int j = 0, k = i; j < genLength; j++, k++)
@@ -112,7 +113,7 @@ public:
 
 
 		for (int i = 0; i < messageLength - 1; i++) //Bitwise division
-		{ // Her ligger fejlen!
+		{ 
 			k = i;
 			j = 0;
 			if (generator[j] == temp[k])
@@ -173,7 +174,7 @@ public:
 
 private:
 
-	std::vector<int> generator = { 1, 1, 0, 1 }; //A better generator must be choosen!
+	std::vector<int> generator = { 1, 1, 1, 0, 1, 1 }; //CRC-8, DVB-S2
 	int genLength = generator.size();
 	std::vector<int> temp, CRC, finalMessage, rrem;
 	int i, k, j;
@@ -188,17 +189,9 @@ private:
 int main()
 {
 	std::vector<int> test =               { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 }; //Hej!
-	std::vector<int> receiveTestCorrect = { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 }; //Hej! With padding
-	std::vector<int> receiveTestError =   { 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 }; //Êej! With padding
 	someCrc CRC;
-	//CRC.senderPreb(test);
 	CRC.receiverCheck(CRC.senderPreb(test));
-
-	/*std::cout << " \n Test correct:";
-	CRC.receiverCheck(receiveTestCorrect);
-	std::cout << " \n \n Test with error:";
-	CRC.receiverCheck(receiveTestError);*/
-
+		
 
 	return 0;
 }
