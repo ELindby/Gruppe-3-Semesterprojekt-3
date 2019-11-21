@@ -1,6 +1,7 @@
 #include "Recorder.h"
 #include <iostream>
 #include <numeric>
+#include <bitset>
 
 const double pi = 3.14159265358979323846;
 
@@ -15,19 +16,27 @@ DTMFRecorder::~DTMFRecorder()
 
 bool DTMFRecorder::onStart()
 {
-	setProcessingInterval(sf::milliseconds(300)); // Process data in intervals of X ms
+	setProcessingInterval(sf::milliseconds(200)); // Process data in intervals of X ms
 	return true;
 }
 
 bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampleCount)
 {
+
+	// std::cout << "bop" << std::endl;;
 	// Multiply with Hann window
 	std::vector<float> windowedSignal = hannWindow(samples, sampleCount);
 
 	int freqL = determineDTMF(windowedSignal, true);
 	int freqH = determineDTMF(windowedSignal, false);
 
-	std::cout << freqL << std::endl << freqH << std::endl;
+	 // std::cout << freqL << std::endl << freqH << std::endl;
+
+	if (savingMessage == true)
+	{
+		saveRecording(freqL, freqH);
+		convertFromDTMF(recordedMessage);
+	}
 
 	// if start signal is recorded -> do something
 	if (freqL == 941 && freqH == 1633)
@@ -37,10 +46,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		// convertFromDTMF(recordedMessage);
 	}
 
-	if(savingMessage == true)
-	{
-		saveRecording(freqL, freqH);
-	}
+
 
 	//// Perform Goertzel algorithm for all DTMF frequencies
 	//std::vector<float> magnitudesL, magnitudesH;
@@ -143,6 +149,7 @@ void DTMFRecorder::saveRecording(int lowFreq, int highFreq)
 	// Save low frequency first, then high
 	recordedMessage.push_back(lowFreq);
 	recordedMessage.push_back(highFreq);
+
 }
 
 int DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
@@ -151,7 +158,7 @@ int DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 	int freqL = 0;
 	int	freqH = 0;
 	int indexL = 0;
-	int	indexH = 0;
+	int	indexH = 4;
 
 	// Lower half of tones
 	for (int a = 0; a < 4; a++) {
@@ -184,7 +191,7 @@ int DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 	float sum_of_magnitudes;
 	sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
 
-	if ((magnitudesL[indexL] > (sum_of_magnitudes / 4)) || (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4)))
+	if ((magnitudesL[indexL] > (sum_of_magnitudes / 2)) || (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4)))
 	{
 		if (magnitudesL[indexL] > magnitudesH[indexH - 4])
 		{
@@ -336,10 +343,14 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		unwrappedMessage.push_back(asChar);
 	}
 
-	//// Print message
-	//for (int i = 0; i < unwrappedMessage.size(); i++)
-	//{
-	//	std::cout << unwrappedMessage[i];
-	//}
+	// Print message
+	for (int i = 0; i < unwrappedMessage.size(); i++)
+	{
+		std::cout << unwrappedMessage[i];
+
+		//std::cout << std::bitset<8>(unwrappedMessage[i]);
+	}
+
+	std::cout << std::endl;
 
 }

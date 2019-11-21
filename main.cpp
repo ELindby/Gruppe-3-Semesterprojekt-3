@@ -18,6 +18,8 @@
 
 int main() {
 
+	std::vector<int> recordedMessage{697, 1336, 770, 1477,};
+
 	// Check that audio is available
 	if (!sf::SoundRecorder::isAvailable())
 	{
@@ -26,6 +28,8 @@ int main() {
 
 	// create the recorder
 	DTMFRecorder recorder;
+
+	recorder.convertFromDTMF(recordedMessage);
 
 	// Start recorder
 	recorder.start(8000); // argument = samplerate

@@ -25,6 +25,11 @@ void SoundGenerator::convertToDTMF(std::string& input)
 	std::vector<float> highFrequencies;
 	std::vector<float> lowFrequencies;
 
+	//input start signal
+	lowFrequencies.push_back(941);
+	highFrequencies.push_back(1633);
+
+
 	for (int i = 0; i < (input.length()); i++) {
 
 		// Masks upper and lower nipple of ASCII byte
@@ -41,10 +46,10 @@ void SoundGenerator::convertToDTMF(std::string& input)
 
 		// Put lower frequencies in a vector
 		lowFrequencies.push_back(lowDTMFL);
-		lowFrequencies.push_back(highDTMFL);
+		lowFrequencies.push_back(lowDTMFU);
 
 		// Put high frequencies in another vector
-		highFrequencies.push_back(lowDTMFU);
+		highFrequencies.push_back(highDTMFL);
 		highFrequencies.push_back(highDTMFU);
 
 		//// Displays information at terminal
@@ -159,61 +164,44 @@ int SoundGenerator::hightoneFrequency(char high) {
 		const unsigned nSamples = 8000;
 
 		sf::Int16 toneL[nSamples];
-		sf::Int16 toneU[nSamples];
+
 		const double twoPi = 6.28318;
 
-		for (int i = 0; i < (lowFrequencies.size()/2); i++)
-		{
-			double piPoduct1L = (twoPi * lowFrequencies[i*2]) / wSampleRate;
-			double piPoduct2L = (twoPi * lowFrequencies[(i*2)+1]) / wSampleRate;
+			for (int i = 0; i < (lowFrequencies.size()); i++)
+			{
+				double piPoduct1L = (twoPi * lowFrequencies[i]) / wSampleRate;
 
-			double piPoduct1U = (twoPi * highFrequencies[i * 2]) / wSampleRate;
-			double piPoduct2U = (twoPi * highFrequencies[(i * 2) + 1]) / wSampleRate;
+				double piPoduct1U = (twoPi * highFrequencies[i]) / wSampleRate;
 
-			for (unsigned i = 0; i < nSamples; i++) {
-				toneL[i] = 128 * (63 * sin(i * piPoduct1L) + 63 * sin(i * piPoduct2L));
+				for (unsigned i = 0; i < nSamples; i++) {
+					toneL[i] = 128 * (63 * sin(i * piPoduct1L) + 63 * sin(i * piPoduct1U));
+				}
+
+				//// Create file with samples
+				//std::ofstream outfile;
+				//outfile.open("sample_1.csv");
+				//for (size_t i = 0; i < nSamples; i++)
+				//{
+				//	//std::cout << DTMFtone[i] << '\t';
+				//	outfile << i + 1 << ";";
+				//	outfile << toneL[i] << std::endl;
+				//}
+				//outfile.close();
+
+				// Play DTMF tone (sinewave)
+				if ((!BufferL.loadFromSamples(toneL, nSamples, 1, wSampleRate)))  {
+					std::cerr << "Loading failed!" << std::endl;
+				}
+
+				SoundL.setBuffer(BufferL);
+				SoundL.setLoop(true);
+				SoundL.play();
+				sf::sleep(sf::milliseconds(100));
+
+				// std::cout << "bip" << std::endl;
+
+				SoundL.stop();
+				sf::sleep(sf::milliseconds(110));
+
 			}
-			for (unsigned i = 0; i < nSamples; i++) {
-				toneU[i] = 128 * (63 * sin(i * piPoduct1U) + 63 * sin(i * piPoduct2U));
-			}
-
-			//// Create file with samples
-			//std::ofstream outfile;
-			//outfile.open("sample_1.csv");
-			//for (size_t i = 0; i < nSamples; i++)
-			//{
-			//	//std::cout << DTMFtone[i] << '\t';
-			//	outfile << i + 1 << ";";
-			//	outfile << toneL[i] << std::endl;
-			//}
-			//outfile.close();
-
-
-
-			// Play DTMF tone (sinewave)
-			sf::SoundBuffer BufferL;
-			sf::SoundBuffer BufferU;
-			if ((!BufferL.loadFromSamples(toneL, nSamples, 1, wSampleRate)) & (!BufferU.loadFromSamples(toneU, nSamples, 1, wSampleRate))) {
-				std::cerr << "Loading failed!" << std::endl;
-			}
-
-			sf::Sound SoundL;
-			SoundL.setBuffer(BufferL);
-			SoundL.setLoop(true);
-			SoundL.play();
-			sf::sleep(sf::milliseconds(290));
-
-			SoundL.stop();
-			sf::sleep(sf::milliseconds(10));
-
-			sf::Sound SoundU;
-			SoundU.setBuffer(BufferU);
-			SoundU.setLoop(true);
-			SoundU.play();
-
-			sf::sleep(sf::milliseconds(290));
-			SoundU.stop();
-			sf::sleep(sf::milliseconds(10));
-
-		}
 	}

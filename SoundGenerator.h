@@ -22,5 +22,7 @@ public:
 	void PlaySound(std::vector<float>&lowFrenquencies, std::vector<float>&highFrenquencies);
 
 	sf::Int16 savedSignal;
+	sf::SoundBuffer BufferL;
+	sf::Sound SoundL;
 };
 
