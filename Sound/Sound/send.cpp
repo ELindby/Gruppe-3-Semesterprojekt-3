@@ -1,12 +1,13 @@
 #include "send.h"
 
-send::send(){}
-send::~send() {}
-send::send(char n){
+Send::Send() {}
+Send::~Send() {}
+
+Send::Send(char n) {
 	ConvertToDTMF(n);
 }
 
-void send::ConvertToDTMF(char input){
+void Send::ConvertToDTMF(char input) {
 	// Masks upper and lower nipple of ASCII byte
 	char lowerNipple = 0b00001111 & input;
 	char upperNipple = (0b11110000 & input) >> 4;
@@ -25,7 +26,7 @@ void send::ConvertToDTMF(char input){
 
 	PlaySound(lowDTMFL, highDTMFL, lowDTMFU, highDTMFU);
 }
-int send::lowtoneFrequency(char low){
+int Send::lowtoneFrequency(char low) {
 	assert(low < 16);
 	int lowDTMF = 0;
 	if (low < 12) {
@@ -39,7 +40,7 @@ int send::lowtoneFrequency(char low){
 	}
 	return lowDTMF = 941;
 }
-int send::hightoneFrequency(char high){
+int Send::hightoneFrequency(char high) {
 	assert(high < 16);
 	int highDTMF = 0;
 	int col = (high + 1) % 4;
@@ -56,7 +57,7 @@ int send::hightoneFrequency(char high){
 		return highDTMF = 1633;
 	}
 }
-void send::PlaySound(int lowDTMFL, int highDTMFL, int lowDTMFU, int highDTMFU){
+void Send::PlaySound(int lowDTMFL, int highDTMFL, int lowDTMFU, int highDTMFU) {
 	// Sample sinewave
 	const unsigned wSampleRate = 8000;
 	const unsigned nSamples = 8000;
@@ -88,13 +89,13 @@ void send::PlaySound(int lowDTMFL, int highDTMFL, int lowDTMFU, int highDTMFU){
 	SoundL.setBuffer(BufferL);
 	SoundL.setLoop(true);
 	SoundL.play();
-	// Play tone for some time
-	sf::sleep(sf::milliseconds(400));
+
+	sf::sleep(sf::milliseconds(1000));
 
 	sf::Sound SoundU;
 	SoundU.setBuffer(BufferU);
 	SoundU.setLoop(true);
 	SoundU.play();
-	//// Play tone for some time
-	sf::sleep(sf::milliseconds(400));
+
+	sf::sleep(sf::milliseconds(1000));
 }

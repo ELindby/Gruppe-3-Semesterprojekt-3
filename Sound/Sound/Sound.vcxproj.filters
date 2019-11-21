@@ -24,12 +24,24 @@
     <ClCompile Include="receive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DTMFRecorder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="send.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="receive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DTMFRecorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

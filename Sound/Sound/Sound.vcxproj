@@ -123,13 +123,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DTMFRecorder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="receive.cpp" />
     <ClCompile Include="send.cpp" />
+    <ClCompile Include="SoundGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DTMFRecorder.h" />
     <ClInclude Include="receive.h" />
     <ClInclude Include="send.h" />
+    <ClInclude Include="SoundGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

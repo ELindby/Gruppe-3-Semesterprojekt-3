@@ -8,16 +8,18 @@
 #include <sstream>
 #include <bitset>
 #include <cassert>
-class send
+
+class Send
 {
 public:
-	send();
-	~send();
-	send(char n);
+	Send();
+	~Send();
+	Send(char n);
 
 	void ConvertToDTMF(char input);
 	int lowtoneFrequency(char low);
 	int hightoneFrequency(char high);
 	void PlaySound(int lowDTMFL, int highDTMFL, int lowDTMFU, int highDTMFU);
+
 };
 

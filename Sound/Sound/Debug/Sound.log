@@ -1,11 +1,52 @@
-﻿  main.cpp
-  receive.cpp
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(31): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(37): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(58): warning C4244: 'initializing': conversion from 'sf::Uint64' to 'size_t', possible loss of data
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\receive.cpp(105): warning C4018: '<': signed/unsigned mismatch
+﻿  DTMFRecorder.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(27): warning C4018: '<': signed/unsigned mismatch
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(29): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(54): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(55): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(59): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(103): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(108): warning C4018: '<': signed/unsigned mismatch
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\numeric(26): warning C4244: '=': conversion from 'float' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\numeric(36): note: see reference to function template instantiation '_Ty std::accumulate<_InIt,_Ty,std::plus<void>>(const _InIt,const _InIt,_Ty,_Fn)' being compiled
+          with
+          [
+              _Ty=int,
+              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>,
+              _Fn=std::plus<void>
+          ]
+  c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\dtmfrecorder.cpp(59): note: see reference to function template instantiation '_Ty std::accumulate<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>,int>(const _InIt,const _InIt,_Ty)' being compiled
+          with
+          [
+              _Ty=int,
+              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>
+          ]
+  SoundGenerator.cpp
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\soundgenerator.cpp(26): warning C4018: '<': signed/unsigned mismatch
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\soundgenerator.cpp(105): warning C4018: '<': signed/unsigned mismatch
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\soundgenerator.cpp(114): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\soundgenerator.cpp(117): warning C4244: '=': conversion from 'double' to 'sf::Int16', possible loss of data
+  main.cpp
   Generating Code...
-  LINK : C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\Sound\Debug\Sound.exe not found or not built by the last incremental link; performing full link
+c:\users\nicol\onedrive - finman aps\sdu robotteknoligi\3. semester\gruppe-3-semesterprojekt-3\sound\sound\soundgenerator.cpp(93): warning C4715: 'SoundGenerator::hightoneFrequency': not all control paths return a value
   Sound.vcxproj -> C:\Users\nicol\OneDrive - Finman ApS\SDU Robotteknoligi\3. Semester\Gruppe-3-Semesterprojekt-3\Sound\Debug\Sound.exe
