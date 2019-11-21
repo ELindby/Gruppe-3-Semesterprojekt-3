@@ -19,6 +19,8 @@ public:
 	void convertToDTMF(std::string& input);
 	int lowtoneFrequency(char low);
 	int hightoneFrequency(char high);
-	void PlaySound(std::vector<int>&lowFrenquencies, std::vector<int>&highFrenquencies);
+	void PlaySound(std::vector<float>&lowFrenquencies, std::vector<float>&highFrenquencies);
+
+	sf::Int16 savedSignal;
 };
 

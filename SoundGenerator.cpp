@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <iostream>
+#include <fstream>
 
 SoundGenerator::SoundGenerator()
 {
@@ -20,8 +22,8 @@ SoundGenerator::SoundGenerator(std::string message)
 
 void SoundGenerator::convertToDTMF(std::string& input)
 {
-	std::vector<int> highFrequencies;
-	std::vector<int> lowFrequencies;
+	std::vector<float> highFrequencies;
+	std::vector<float> lowFrequencies;
 
 	for (int i = 0; i < (input.length()); i++) {
 
@@ -29,11 +31,9 @@ void SoundGenerator::convertToDTMF(std::string& input)
 		char lowerNipple = 0b00001111 & input[i];
 		char upperNipple = (0b11110000 & input[i]) >> 4;
 
-
 		// Finds DTMF tone for lower nipple
 		int lowDTMFL = lowtoneFrequency(lowerNipple);
 		int highDTMFL = hightoneFrequency(lowerNipple);
-
 
 		// Finds DTMF tone for upper nipple
 		int lowDTMFU = lowtoneFrequency(upperNipple);
@@ -51,8 +51,6 @@ void SoundGenerator::convertToDTMF(std::string& input)
 		//std::cout << input << ": " << '\n' << lowDTMFL << '\t' << highDTMFL << '\n';
 		//std::cout << lowDTMFU << '\t' << highDTMFU << std::endl;
 	}
-
-	std::cout << lowFrequencies.size();
 
 	//Play DTMF tones
 	PlaySound(lowFrequencies, highFrequencies);
@@ -73,7 +71,7 @@ int SoundGenerator::lowtoneFrequency(char low) {
 	return lowDTMF = 941;
 }
 
-	int SoundGenerator::hightoneFrequency(char high) {
+int SoundGenerator::hightoneFrequency(char high) {
 		assert(high < 16);
 		int highDTMF = 0;
 		int col = (high + 1) % 4;
@@ -82,20 +80,82 @@ int SoundGenerator::lowtoneFrequency(char low) {
 		{
 		case 1:
 			return highDTMF = 1209;
+			break;
 		case 2:
 			return highDTMF = 1336;
+			break;
 		case 3:
 			return highDTMF = 1477;
+			break;
 		case 0:
 			return highDTMF = 1633;
+			break;
 		}
-
 }
 
-	void SoundGenerator::PlaySound(std::vector<int>& lowFrequencies, std::vector<int>& highFrequencies)
+//void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<float>& highFrequencies)
+//{
+//	// Sample sinewave
+//	const unsigned wSampleRate = 8000;
+//	const unsigned nSamples = 8000;
+//	const unsigned AMPLITUDE = 10000;
+//
+//	sf::Int16 toneL[nSamples];
+//	sf::Int16 toneU[nSamples];
+//	const double twoPi = 6.28318;
+//
+//	for (int i = 0; i < (lowFrequencies.size() / 2); i++)
+//	{
+//		float x = 0;
+//		float y = 0;
+//
+//		const double TWO_PI = 6.28318;
+//
+//		for (unsigned n = 0; n < nSamples; n++) {
+//			toneL[n] = (AMPLITUDE * sin(x*twoPi)) + (AMPLITUDE * sin(y*twoPi));
+//			x += lowFrequencies[i * 2] / wSampleRate;
+//			y += lowFrequencies[(i * 2) + 1] / wSampleRate;
+//		}
+//
+//		for (unsigned n = 0; n < nSamples; n++) {
+//			toneU[n] = (AMPLITUDE * sin(x*twoPi)) + (AMPLITUDE * sin(y*twoPi));
+//			x += highFrequencies[i * 2] / wSampleRate;
+//			y += highFrequencies[(i * 2) + 1] / wSampleRate;
+//		}
+//
+//		// Play DTMF tone (sinewave)
+//		sf::SoundBuffer BufferL;
+//		sf::SoundBuffer BufferU;
+//		if ((!BufferL.loadFromSamples(toneL, nSamples, 1, wSampleRate)) & (!BufferU.loadFromSamples(toneU, nSamples, 1, wSampleRate))) {
+//			std::cerr << "Loading failed!" << std::endl;
+//		}
+//
+//		sf::Sound SoundL;
+//		SoundL.setBuffer(BufferL);
+//		SoundL.setLoop(true);
+//		SoundL.play();
+//		sf::sleep(sf::milliseconds(240));
+//
+//		SoundL.stop();
+//		sf::sleep(sf::milliseconds(10));
+//
+//		sf::Sound SoundU;
+//		SoundU.setBuffer(BufferU);
+//		SoundU.setLoop(true);
+//		SoundU.play();
+//
+//		sf::sleep(sf::milliseconds(240));
+//		SoundU.stop();
+//		sf::sleep(sf::milliseconds(10));
+//
+//	}
+//}
+
+
+	void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<float>& highFrequencies)
 	{
 		// Sample sinewave
-		const unsigned wSampleRate = 8000;
+		const unsigned wSampleRate =8000;
 		const unsigned nSamples = 8000;
 
 		sf::Int16 toneL[nSamples];
@@ -117,6 +177,19 @@ int SoundGenerator::lowtoneFrequency(char low) {
 				toneU[i] = 128 * (63 * sin(i * piPoduct1U) + 63 * sin(i * piPoduct2U));
 			}
 
+			//// Create file with samples
+			//std::ofstream outfile;
+			//outfile.open("sample_1.csv");
+			//for (size_t i = 0; i < nSamples; i++)
+			//{
+			//	//std::cout << DTMFtone[i] << '\t';
+			//	outfile << i + 1 << ";";
+			//	outfile << toneL[i] << std::endl;
+			//}
+			//outfile.close();
+
+
+
 			// Play DTMF tone (sinewave)
 			sf::SoundBuffer BufferL;
 			sf::SoundBuffer BufferU;
@@ -128,17 +201,19 @@ int SoundGenerator::lowtoneFrequency(char low) {
 			SoundL.setBuffer(BufferL);
 			SoundL.setLoop(true);
 			SoundL.play();
-			sf::sleep(sf::milliseconds(400));
+			sf::sleep(sf::milliseconds(290));
 
 			SoundL.stop();
+			sf::sleep(sf::milliseconds(10));
 
 			sf::Sound SoundU;
 			SoundU.setBuffer(BufferU);
 			SoundU.setLoop(true);
 			SoundU.play();
 
-			sf::sleep(sf::milliseconds(400));
+			sf::sleep(sf::milliseconds(290));
 			SoundU.stop();
+			sf::sleep(sf::milliseconds(10));
 
 		}
 	}

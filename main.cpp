@@ -12,8 +12,12 @@
 #include <bitset>
 #include <cassert>
 #include <iomanip>
+#include <fstream>
+
+
 
 int main() {
+
 	// Check that audio is available
 	if (!sf::SoundRecorder::isAvailable())
 	{
@@ -33,7 +37,7 @@ int main() {
 	SoundGenerator message(input);
 
 	//Keep program from closing
-	Sleep(10000);
+	Sleep(100000);
 
 	return 0;
 }
