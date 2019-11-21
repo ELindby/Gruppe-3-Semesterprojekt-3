@@ -15,79 +15,92 @@ DTMFRecorder::~DTMFRecorder()
 
 bool DTMFRecorder::onStart()
 {
-	setProcessingInterval(sf::milliseconds(400)); // Process data in intervals of 100 ms
+	setProcessingInterval(sf::milliseconds(300)); // Process data in intervals of X ms
 	return true;
 }
 
 bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampleCount)
 {
-	// Apply Hann smoothing
-	std::vector<int> windowedSignal;
+	// Multiply with Hann window
+	std::vector<float> windowedSignal = hannWindow(samples, sampleCount);
 
-	for (int i = 0; i < sampleCount; i++) {
-		double multiplier = 0.5 * (1 - cos(2 * pi*i / (sampleCount-1)));
-		windowedSignal.push_back(multiplier * samples[i]);
-	}
+	int freqL = determineDTMF(windowedSignal, true);
+	int freqH = determineDTMF(windowedSignal, false);
 
-	// Perform Goertzel algorithm for all DTMF frequencies
-	std::vector<float> magnitudesL, magnitudesH;
-
-	for (int a = 0; a < 4; a++) {
-		magnitudesL.push_back(goertzel(sampleCount, DTMFtones[a], sampleRate, windowedSignal));
-		magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, windowedSignal));
-	}
-
-	// Find index of the highest frequency
-	int freqL = 0, freqH = 0;
-	int indexL = 0, indexH = 4;
-
-	for (unsigned int i = 0; i < 4; i++) {
-		if (magnitudesL[i] > freqL) {
-			freqL = magnitudesL[i];
-			indexL = i;
-		}
-		if (magnitudesH[i] > freqH) {
-			freqH = magnitudesH[i];
-			indexH = i + 4;
-		}
-	}
-	freqL = DTMFtones[indexL];
-	freqH = DTMFtones[indexH];
-
-	// Calculate magnitude threshold
-	float sum_of_magnitudes;
-	sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
-
-
-	if (magnitudesL[indexL] > magnitudesH[indexH-4])
-	{
-		if (magnitudesL[indexL] > (sum_of_magnitudes / 4) && magnitudesH[indexH - 4] > (magnitudesL[indexL]/2))
-		{
-			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
-			saveRecording(freqL, freqH);
-		}
-	}
-
-	if (magnitudesL[indexL] < magnitudesH[indexH - 4])
-	{
-		if (magnitudesH[indexH-4] > (sum_of_magnitudes / 4) && (magnitudesH[indexH - 4]/2) < magnitudesL[indexL])
-		{
-			std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
-			saveRecording(freqL, freqH);
-		}
-	}
+	std::cout << freqL << std::endl << freqH << std::endl;
 
 	// if start signal is recorded -> do something
-	if (freqL == 941 && freqH == 1477)
+	if (freqL == 941 && freqH == 1633)
 	{
-		convertFromDTMF(recordedMessage);
+		savingMessage = true;
+		std::cout << "start signal heard" << std::endl;
+		// convertFromDTMF(recordedMessage);
 	}
+
+	if(savingMessage == true)
+	{
+		saveRecording(freqL, freqH);
+	}
+
+	//// Perform Goertzel algorithm for all DTMF frequencies
+	//std::vector<float> magnitudesL, magnitudesH;
+
+	//for (int a = 0; a < 4; a++) {
+	//	magnitudesL.push_back(goertzel(sampleCount, DTMFtones[a], sampleRate, windowedSignal));
+	//	magnitudesH.push_back(goertzel(sampleCount, DTMFtones[a + 4], sampleRate, windowedSignal));
+	//}
+
+	//// Find index of the highest frequency
+	//int freqL = 0, freqH = 0;
+	//int indexL = 0, indexH = 4;
+
+	//for (unsigned int i = 0; i < 4; i++) {
+	//	if (magnitudesL[i] > freqL) {
+	//		freqL = magnitudesL[i];
+	//		indexL = i;
+	//	}
+	//	if (magnitudesH[i] > freqH) {
+	//		freqH = magnitudesH[i];
+	//		indexH = i + 4;
+	//	}
+	//}
+	//freqL = DTMFtones[indexL];
+	//freqH = DTMFtones[indexH];
+
+	//// Calculate magnitude threshold
+	//float sum_of_magnitudes;
+	//sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
+
+	//if (magnitudesL[indexL] > magnitudesH[indexH-4])
+	//{
+	//	if (magnitudesL[indexL] > (sum_of_magnitudes / 4) && magnitudesH[indexH - 4] > (magnitudesL[indexL]/2))
+	//	{
+	//		// std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH-4] << std::endl << std::endl;
+	//		saveRecording(freqL, freqH);
+	//		convertFromDTMF(recordedMessage);
+	//	}
+	//}
+
+	//else
+	//{
+	//	if (magnitudesL[indexL] < magnitudesH[indexH - 4])
+	//	{
+	//		if (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4) && (magnitudesH[indexH - 4] / 2) < magnitudesL[indexL])
+	//		{
+	//			// std::cout << freqL << " : " << magnitudesL[indexL] << std::endl << freqH << " : " << magnitudesH[indexH - 4] << std::endl << std::endl;
+	//			saveRecording(freqL, freqH);
+	//			convertFromDTMF(recordedMessage);
+	//		}
+	//	}
+	//}
+	
+
 
 	return true; // continue recording
 
 }
 
-float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, std::vector<int>&windowedSignal)
+float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, std::vector<float>&windowedSignal)
 {
 	int     k, i;
 	float   floatnumSamples;
@@ -112,6 +125,19 @@ float DTMFRecorder::goertzel(std::size_t sampleCount, unsigned int TARGET_FREQUE
 	return magnitude;
 }
 
+
+std::vector<float> DTMFRecorder::hannWindow(const sf::Int16 * samples, std::size_t sampleCount)
+{
+	// Apply Hann smoothing
+	std::vector<float> windowedSignal;
+
+	for (int i = 0; i < sampleCount; i++) {
+		double multiplier = 0.5 * (1 - cos(2 * pi*i / (sampleCount - 1)));
+		windowedSignal.push_back(multiplier * samples[i]);
+	}
+	return windowedSignal;
+}
+
 void DTMFRecorder::saveRecording(int lowFreq, int highFreq)
 {
 	// Save low frequency first, then high
@@ -119,12 +145,121 @@ void DTMFRecorder::saveRecording(int lowFreq, int highFreq)
 	recordedMessage.push_back(highFreq);
 }
 
+int DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
+{
+	std::vector<float> magnitudesL, magnitudesH;
+	int freqL = 0;
+	int	freqH = 0;
+	int indexL = 0;
+	int	indexH = 0;
+
+	// Lower half of tones
+	for (int a = 0; a < 4; a++) {
+		magnitudesL.push_back(goertzel(recording.size(), DTMFtones[a], sampleRate, recording));
+	}
+
+	for (unsigned int i = 0; i < 4; i++) {
+		if (magnitudesL[i] > freqL) {
+			freqL = magnitudesL[i];
+			indexL = i;
+		}
+	}
+	freqL = DTMFtones[indexL];
+
+	// Higher half of tones
+	for (int a = 0; a < 4; a++) {
+		magnitudesH.push_back(goertzel(recording.size(), DTMFtones[a + 4], sampleRate, recording));
+	}
+
+	for (unsigned int i = 0; i < 4; i++) {
+		if (magnitudesH[i] > freqH) {
+			freqH = magnitudesH[i];
+			indexH = i + 4;
+		}
+	}
+	freqH = DTMFtones[indexH];
+
+
+	// Determine if magnitude is high enough
+	float sum_of_magnitudes;
+	sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
+
+	if ((magnitudesL[indexL] > (sum_of_magnitudes / 4)) || (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4)))
+	{
+		if (magnitudesL[indexL] > magnitudesH[indexH - 4])
+		{
+			if ( magnitudesH[indexH - 4] > (magnitudesL[indexL] / 2))
+			{
+				if (findLow == true)
+					return freqL;
+				else {
+					return freqH;
+				}
+			}
+		}
+
+		else
+		{
+			if (magnitudesL[indexL] < magnitudesH[indexH - 4])
+			{
+				if ((magnitudesH[indexH - 4] / 2) < magnitudesL[indexL])
+				{
+					if (findLow == true)
+						return freqL;
+					else {
+						return freqH;
+					}
+				}
+			}
+		}
+	}
+		return 0;
+
+
+	//// Accept only result if magnitude > sum/4
+	//if ((magnitudesL[indexL] > (sum_of_magnitudes / 4)) or (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4))) // fix "or"
+	//{
+
+	//	if (magnitudesL[indexL] > magnitudesH[indexH - 4])
+	//	{
+	//		if ((magnitudesL[indexL] > (sum_of_magnitudes / 4)) and (magnitudesH[indexH - 4] > (magnitudesL[indexL] / 2)))
+	//		{
+	//			//if (findLow == true) {
+	//			//	return freqL;
+	//			//}
+	//			//else {
+	//			//	return freqH;
+	//			//}
+	//			return 1;
+	//		}
+	//	}
+
+	//	else
+	//	{
+	//		if (magnitudesL[indexL] < magnitudesH[indexH - 4])
+	//		{
+	//			if ((magnitudesH[indexH - 4] > (sum_of_magnitudes / 4)) and ((magnitudesH[indexH - 4] / 2) < magnitudesL[indexL]))
+	//			{
+	//				//if (findLow == true) {
+	//				//	return freqL;
+	//				//}
+	//				//else {
+	//				//	return freqH;
+	//				//}
+	//				return 2;
+	//			}
+	//		}
+	//	}
+	//}
+
+	//else {
+	//	return 0;
+	//}
+}
+
 void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 {
-	
 	std::vector<char> unwrappedMessage;
-
-	std::cout << "size:" << recordedMessage.size() << std::endl;
 
 	// Combine 4 frequencies to a single character
 	for (int i = 0; i < (recordedMessage.size() / 4); i++)
@@ -201,12 +336,10 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		unwrappedMessage.push_back(asChar);
 	}
 
-	// Print message
-	for (int i = 0; i < unwrappedMessage.size(); i++)
-	{
-		std::cout << unwrappedMessage[i];
-	}
-
-	std::cout << std::endl;
+	//// Print message
+	//for (int i = 0; i < unwrappedMessage.size(); i++)
+	//{
+	//	std::cout << unwrappedMessage[i];
+	//}
 
 }
