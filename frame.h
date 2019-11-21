@@ -17,7 +17,7 @@ public:
 
 	void MessageCutter(char message[]); //Del beskeden op i bider af data
 
-	std::vector<std::vector<std::bitset<8>>> GetPackages();
+	std::vector<std::vector<std::bitset<8>>> GetPackages();  //Til Test af deframe
 
 	void PrintMsgSliced();
 
@@ -36,5 +36,5 @@ private:
 
 	//Til trailer____________
 	void AddTrailer(std::vector<std::bitset<8>> headerAndDatagram);
-	std::bitset<8> crcCodeword = 0b11111111; //Midlertidig værdi
+	std::bitset<8> crcCodeword = 0b11111111; //Midlertidig vÃ¦rdi
 };
