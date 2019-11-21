@@ -4,22 +4,13 @@
 #include <vector>
 #include <cassert>
 
-SoundGenerator::SoundGenerator()
-{
-}
+SoundGenerator::SoundGenerator() {}
+SoundGenerator::~SoundGenerator() {}
 
-
-SoundGenerator::~SoundGenerator()
-{
-}
-
-SoundGenerator::SoundGenerator(std::string message)
-{
+SoundGenerator::SoundGenerator(std::string message) {
 	convertToDTMF(message);
 }
-
-void SoundGenerator::convertToDTMF(std::string& input)
-{
+void SoundGenerator::convertToDTMF(std::string& input) {
 	std::vector<int> highFrequencies;
 	std::vector<int> lowFrequencies;
 
@@ -92,8 +83,7 @@ int SoundGenerator::hightoneFrequency(char high) {
 
 }
 
-void SoundGenerator::PlaySound(std::vector<int>& lowFrequencies, std::vector<int>& highFrequencies)
-{
+void SoundGenerator::PlaySound(std::vector<int>& lowFrequencies, std::vector<int>& highFrequencies) {
 	// Sample sinewave
 	const unsigned wSampleRate = 8000;
 	const unsigned nSamples = 8000;
@@ -102,8 +92,7 @@ void SoundGenerator::PlaySound(std::vector<int>& lowFrequencies, std::vector<int
 	sf::Int16 toneU[nSamples];
 	const double twoPi = 6.28318;
 
-	for (int i = 0; i < (lowFrequencies.size() / 2); i++)
-	{
+	for (int i = 0; i < (lowFrequencies.size() / 2); i++) {
 		double piPoduct1L = (twoPi * lowFrequencies[i * 2]) / wSampleRate;
 		double piPoduct2L = (twoPi * lowFrequencies[(i * 2) + 1]) / wSampleRate;
 

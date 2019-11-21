@@ -5,9 +5,6 @@
 
 receive::receive() {
 	assert(sf::SoundBufferRecorder::isAvailable());
-
-
-
 	system("pause");
 }
 receive::~receive() {}

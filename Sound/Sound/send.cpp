@@ -2,11 +2,9 @@
 
 Send::Send() {}
 Send::~Send() {}
-
 Send::Send(char n) {
 	ConvertToDTMF(n);
 }
-
 void Send::ConvertToDTMF(char input) {
 	// Masks upper and lower nipple of ASCII byte
 	char lowerNipple = 0b00001111 & input;
