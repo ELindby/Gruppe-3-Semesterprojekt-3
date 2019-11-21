@@ -1,2 +1,3 @@
 ﻿  CRCCheckSenderAndReceiver.cpp
-  CRCCheckSenderAndReceiver.vcxproj -> C:\Users\jacob\source\repos\CRCCheckSenderAndReceiver\Debug\CRCCheckSenderAndReceiver.exe
+c:\users\jacob\source\repos\crcchecksenderandreceiver\crcchecksenderandreceiver\crcchecksenderandreceiver.cpp(83): error C2065: 'j': undeclared identifier
+c:\users\jacob\source\repos\crcchecksenderandreceiver\crcchecksenderandreceiver\crcchecksenderandreceiver.cpp(84): error C2065: 'j': undeclared identifier

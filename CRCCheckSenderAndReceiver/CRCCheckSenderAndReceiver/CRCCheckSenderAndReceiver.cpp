@@ -7,7 +7,7 @@
 #include <vector>
 #include <bitset> 
 
-class someCrc {
+class CRC {
 
 public:
 
@@ -20,24 +20,13 @@ public:
 		temp = messageInput;
 		finalMessage = messageInput;
 
-		std::cout << "\n Original message :"; // Prints the original message
-		for (i = 0; i < messageLength; i++)
-		{
-			std::cout << temp[i];
-		}
-
+		
 		//Padding some zeros on the end of the message
 		for (int i = messageLength; i < genLength + (messageLength - 1); i++)
 		{
 			temp.push_back(0);
 		}
 
-		std::cout << "\n Message after appending 0's :";
-		for (i = 0; i < messageLength + genLength - 1; i++)
-		{
-			std::cout << temp[i];
-		}
-		std::cout << "\n";
 
 		for (int i = 0; i < messageLength; i++) //Bitwise division
 		{ 
@@ -58,54 +47,25 @@ public:
 
 		}
 
-
-
-
-		std::cout << "\n Message after division: ";
-		for (i = 0; i < messageLength + genLength - 1; i++)
-		{
-			std::cout << temp[i];
-		}
-		std::cout << "\n";
-
-		std::cout << "\n CRC : ";
+	
 		for (int i = 0; i < genLength - 1; i++)
-		{
-			std::cout << temp[messageLength + i] << " ";
+		{			
 			CRC.push_back(temp[messageLength + i]);
-
 		}
 
-		std::cout << "\n CRC Value: ";
-		for (i = 0; i < genLength - 1; i++)
-		{
-			std::cout << CRC[i];
-		}
-		std::cout << "\n";
-
-
-
+		
 		// Add CRC-check "sum" to the message to be transmitted.
 		for (int i = 0; i < genLength - 1; i++)
 		{
 			finalMessage.push_back(CRC[i]);
 		}
 
-		//Final message:
-		std::cout << " The final message is: ";
-		for (i = 0; i < messageLength + genLength - 1; i++)
-		{
-			std::cout << finalMessage[i];
-		};
-		std::cout << "\n";
-
+		// Returns the final message as a vector containing int
 		return finalMessage;
-
 	}
 
-	
 
-	void receiverCheck(std::vector<int> messageInput)
+	bool receiverCheck(std::vector<int> messageInput)
 	{
 
 		int messageLength = messageInput.size();
@@ -132,43 +92,23 @@ public:
 			}
 
 		}
-		std::cout << "\n Message after division: ";
-		for (i = 0; i < messageLength; i++)
-		{
-			std::cout << temp[i];
-		}
-
-
-		std::cout << "\n Remainder: ";
-
-		/*for (i = messageLength,  j = 0; i < messageLength + (genLength-1); i++, j++)
-		{
-			rrem.push_back(temp.at(i));
-		}*/
-
-
-
-		for (i = 0; i < (messageLength); i++)
-		{
-			std::cout << temp[i];
-		}
-
-		int flag = 0;
-		for (i = 0; i < (messageLength); i++)
+		
+		int errorFlag = 0; // Flag that is set if an error is detected
+		for (i = 0; i < (messageLength); i++) // Checks if error has been detekted, sets errorflag if true.
 		{
 			if (temp[i] != 0)
 			{
-				flag = 1; // Error detected
+				errorFlag = 1; // Error detected
 			}
 		}
 
-		if (flag == 0)
+		if (errorFlag == 0) // Returns bool value, 1 for no error and 0 for error. 
 		{
-			std::cout << "\n Correct";
+			return 1;	
 		}
 		else
 		{
-			std::cout << "\n Contains Error";
+			return 0; 
 		}
 	}
 
@@ -176,9 +116,9 @@ private:
 
 	std::vector<int> generator = { 1, 1, 0, 1, 0, 1, 1, 1 }; //CRC-8-AUTOSAR
 	int genLength = generator.size(); 
-	std::vector<int> temp, CRC, finalMessage, rrem;
+	std::vector<int> temp, CRC, finalMessage;
 	int i, k, j;
-	bool flag;
+	bool errorFlag;
 
 };
 
@@ -189,8 +129,16 @@ private:
 int main()
 {
 	std::vector<int> test =               { 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 }; //Hej!
-	someCrc CRC;
-	CRC.receiverCheck(CRC.senderPreb(test));
+	CRC CRC;
+	if (CRC.receiverCheck(CRC.senderPreb(test)) == 1)
+	{
+		std::cout << "\n Correct";
+	}
+	else
+	{
+		std::cout << "Error";
+	};
+	
 		
 
 	return 0;
