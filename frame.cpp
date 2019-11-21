@@ -32,7 +32,7 @@ void Frame::MessageCutter(char message[]) {
 		slicedMessage.push_back(datagram);
 	}
 
-	while (byteIndex < msgSize) //Er betingelsen IKKE opfyldt -> Alle tegn i beskeden er delt i vektorer af størrelsen "dataSize"
+	while (byteIndex < msgSize) //Er betingelsen IKKE opfyldt
 	{
 		datagram = {}; //tøm datagram vektor
 
@@ -55,12 +55,52 @@ void Frame::MessageCutter(char message[]) {
 		datagramSize = datagram.size();
 
 		datagram.insert(datagram.begin(), AddHeader(lastPck, datagramSize)); //Tilføj header til pakke
+
+		//!Det er er vigtigt at header kommer på før datagrammet! 
+		AddTrailer(datagram);
+		datagram.push_back(crcCodeword); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+
 		slicedMessage.push_back(datagram); //Indsæt pakke i Array med paker der udgør en besked
 	}
 }
 
 std::vector<std::vector<std::bitset<8>>> Frame::GetPackages() {
 	return slicedMessage;
+}
+
+void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
+	CRC crcClass;
+
+	std::vector<std::bitset<8>> hd = headerAndDatagram;
+	std::vector<int> tempByte;
+	std::vector<int> toCRC = {};
+
+	std::vector<int> fromCRC = {};
+	std::string str_codeWord = "";
+
+	for (size_t i = 0; i < hd.size(); i++)
+	{
+		for (size_t j = 0; j < 8; j++) //!!!!
+		{
+			toCRC.push_back(hd[i][7 - j]);
+		}
+	}
+
+	//_________________TIL TEST_______toCRC vektor<int> 
+	//for (size_t i = 0; i < toCRC.size(); i++)
+	//{
+	//	std::cout << toCRC[i];
+	//}
+	//std::cout << std::endl;
+
+	fromCRC = crcClass.senderPreb(toCRC); //Få Codeword
+
+	for (size_t i = 0; i < fromCRC.size(); i++)
+	{
+		str_codeWord += std::to_string(fromCRC[i]);
+	}
+
+	crcCodeword = std::bitset<8>(str_codeWord);
 }
 
 //TIL TESTING
@@ -76,7 +116,7 @@ void Frame::PrintMsgSliced() {
 			std::cout << frame[t] << ", ";
 		}
 		std::cout << "}" << std::endl;
-		std::cout << "Datagram size:" << frame.size() -1 << std::endl;
+		std::cout << "Datagram size:" << frame.size() -2 << std::endl;
 	}
 	std::cout << "Der er " << slicedMessage.size() << " pakker" << std::endl;
 }

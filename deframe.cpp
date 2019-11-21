@@ -32,6 +32,8 @@ void DeFrame::Hi(std::bitset<8> package) {
 }
 
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
+
+	oldsq = sq; //Opdater oldsq 
 	Hi(package[0]);
 
 	std::bitset<8> workingByte;
@@ -42,9 +44,17 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	for (size_t i = 1; i <= dataSize; i++)
 	{
 		workingByte = package[i];
-
-		
+		datagram.push_back(workingByte);
 	}
+}
+
+std::vector<std::bitset<8>> DeFrame::getDatagram() {
+	//LOOP FOR TEST
+	//for (size_t i = 0; i < datagram.size(); i++)
+	//{
+	//	std::cout << datagram[i] << ", ";
+	//}
+	return datagram;
 }
 
 bool DeFrame::getAckFlag() {
@@ -58,7 +68,6 @@ bool DeFrame::getSpFlag() {
 bool DeFrame::DoubletCheck() {
 	if (oldsq != sq)
 	{
-		oldsq = !oldsq;
 		return false;
 	}
 	else

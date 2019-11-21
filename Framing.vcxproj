@@ -111,13 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="crc.cpp" />
     <ClCompile Include="deframe.cpp" />
     <ClCompile Include="frame.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="package_collector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="crc.h" />
     <ClInclude Include="deframe.h" />
     <ClInclude Include="frame.h" />
+    <ClInclude Include="package_collector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

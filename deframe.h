@@ -11,7 +11,8 @@ public:
 	DeFrame();
 	~DeFrame();
 
-	void UnPack(std::vector<std::bitset<8> > package);
+	void UnPack(std::vector<std::bitset<8>> package);
+	std::vector<std::bitset<8>> getDatagram();
 	bool getAckFlag();
 	bool getSpFlag();
 	bool DoubletCheck();
