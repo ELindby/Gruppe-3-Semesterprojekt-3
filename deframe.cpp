@@ -4,6 +4,8 @@
 DeFrame::DeFrame() {};
 DeFrame::~DeFrame() {};
 
+CRC crcClass;
+
 //Hi er Header information
 void DeFrame::Hi(std::bitset<8> package) {
 	std::bitset<8> header = package;
@@ -34,7 +36,9 @@ void DeFrame::Hi(std::bitset<8> package) {
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 
 	oldsq = sq; //Opdater oldsq 
-	Hi(package[0]);
+	Hi(package[0]); //Get header information
+	header = package[0]; //save header
+	trailer = package[dataSize+1]; //save trailer
 
 	std::bitset<8> workingByte;
 
@@ -55,6 +59,38 @@ std::vector<std::bitset<8>> DeFrame::getDatagram() {
 	//	std::cout << datagram[i] << ", ";
 	//}
 	return datagram;
+}
+
+bool DeFrame::crcCheck() {
+	std::vector<int> vecIntToCrcCheck = {};
+	bool check;
+
+	for (size_t i = 0; i < 8; i++)
+	{
+		vecIntToCrcCheck.push_back(header[7 - i]);
+	}
+
+	for (size_t i = 0; i < dataSize; i++)
+	{
+		for (size_t j = 0; j < 8; j++)
+		{
+			vecIntToCrcCheck.push_back(datagram[i][7-j]);
+		}
+	}
+
+	for (size_t i = 0; i < 7; i++)
+	{
+		vecIntToCrcCheck.push_back(trailer[6 - i]);
+	}
+
+	//TIL TEST!
+	//for (size_t i = 0; i < vecIntToCrcCheck.size(); i++)
+	//{
+	//	std::cout << vecIntToCrcCheck[i] << ",";
+	//}
+
+	check = crcClass.receiverCheck(vecIntToCrcCheck);
+	return check;
 }
 
 bool DeFrame::getAckFlag() {

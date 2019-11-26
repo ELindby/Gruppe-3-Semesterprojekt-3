@@ -74,6 +74,7 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 	std::vector<std::bitset<8>> hd = headerAndDatagram;
 	std::vector<int> tempByte;
 	std::vector<int> toCRC = {};
+	//std::vector<int> testdata = {1,1,0,0,0,0,0,1,0,1,0,0,1,0,0,0};
 
 	std::vector<int> fromCRC = {};
 	std::string str_codeWord = "";
@@ -89,14 +90,18 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 	//_________________TIL TEST_______toCRC vektor<int> 
 	//for (size_t i = 0; i < toCRC.size(); i++)
 	//{
-	//	std::cout << toCRC[i];
+	//	std::cout << toCRC[i] << ",";
 	//}
 	//std::cout << std::endl;
+	//_____________
 
 	fromCRC = crcClass.senderPreb(toCRC); //Få Codeword
 
+	//std::cout << " " << fromCRC.size() << std::endl;
+
 	for (size_t i = 0; i < fromCRC.size(); i++)
 	{
+		//std::cout << fromCRC[i] << " ";
 		str_codeWord += std::to_string(fromCRC[i]);
 	}
 

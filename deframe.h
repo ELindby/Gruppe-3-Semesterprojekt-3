@@ -5,6 +5,8 @@
 #include <array>
 #include <bitset>
 
+#include "crc.h"
+
 class DeFrame
 {
 public:	
@@ -16,13 +18,17 @@ public:
 	bool getAckFlag();
 	bool getSpFlag();
 	bool DoubletCheck();
+	bool crcCheck();
+
+	std::bitset<8> trailer;
 
 private:
 
 	//______Til Information om header________
 	void Hi(std::bitset<8> package); //Header information i argument pakke
+	std::bitset<8> header;
 
-	bool sq; ////seq. nr. bit
+	bool sq; //seq. nr. bit
 	int dataSize; //Antal bytes i pakken
 	bool sp; //Er det sidste pakke i beskeden
 	bool ack; //Tjek om pakke er ack
@@ -32,4 +38,6 @@ private:
 	
 	//______Til Dublet check________
 	bool oldsq = 0;
+
+	//______Til CRC_______
 };
