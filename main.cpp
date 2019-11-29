@@ -9,10 +9,11 @@ int main() {
 
 	std::vector<std::bitset<8>> lol;
 
-	char besked[] = "H";
+	char besked[] = "Hej";
+	std::vector<std::bitset<8>> msg = { 0b10101010, 0b10101111, 0b11110110 };
 
 	std::cout << std::endl;
-	framer.MessageCutter(besked);
+	framer.MessageCutter(msg);
 	framer.PrintMsgSliced();
 
 	//std::cout << "DEFRAMED:" << std::endl;
@@ -24,8 +25,7 @@ int main() {
 	//	std::cout << deframer.getDatagram()[i] << ",";
 	//}
 	//std::cout << std::endl;
-	//std::cout << deframer.trailer;
-	std::cout << std::endl <<  "CRC CHECK: " << deframer.crcCheck() << std::endl;
+	std::cout << std::endl <<  "CRC CHECK: " << deframer.CrcCheck() << std::endl;
 
 	system("pause");
 	return 0;

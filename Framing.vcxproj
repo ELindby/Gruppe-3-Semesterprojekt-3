@@ -116,12 +116,14 @@
     <ClCompile Include="frame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="package_collector.cpp" />
+    <ClCompile Include="package_sender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crc.h" />
     <ClInclude Include="deframe.h" />
     <ClInclude Include="frame.h" />
     <ClInclude Include="package_collector.h" />
+    <ClInclude Include="package_sender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

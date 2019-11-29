@@ -15,7 +15,9 @@ public:
 	Frame();
 	~Frame();
 
-	void MessageCutter(char message[]); //Del beskeden op i bider af data
+	//void MessageCutter(char message[]); //Del beskeden op i bider af data
+
+	void MessageCutter(std::vector<std::bitset<8>> message);
 
 	std::vector<std::vector<std::bitset<8>>> GetPackages(); //Til Test af deframe
 

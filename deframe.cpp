@@ -5,6 +5,7 @@ DeFrame::DeFrame() {};
 DeFrame::~DeFrame() {};
 
 CRC crcClass;
+PackageCollector packageCollector;
 
 //Hi er Header information
 void DeFrame::Hi(std::bitset<8> package) {
@@ -50,6 +51,10 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 		workingByte = package[i];
 		datagram.push_back(workingByte);
 	}
+
+	//Add til package collector
+	//SKAL ske til sidst i funktionen
+	packageCollector.AddToCollector();
 }
 
 std::vector<std::bitset<8>> DeFrame::getDatagram() {
@@ -61,7 +66,7 @@ std::vector<std::bitset<8>> DeFrame::getDatagram() {
 	return datagram;
 }
 
-bool DeFrame::crcCheck() {
+bool DeFrame::CrcCheck() {
 	std::vector<int> vecIntToCrcCheck = {};
 	bool check;
 
@@ -70,11 +75,14 @@ bool DeFrame::crcCheck() {
 		vecIntToCrcCheck.push_back(header[7 - i]);
 	}
 
-	for (size_t i = 0; i < dataSize; i++)
+	if (0 <= dataSize)
 	{
-		for (size_t j = 0; j < 8; j++)
+		for (size_t i = 0; i < dataSize; i++)
 		{
-			vecIntToCrcCheck.push_back(datagram[i][7-j]);
+			for (size_t j = 0; j < 8; j++)
+			{
+				vecIntToCrcCheck.push_back(datagram[i][7 - j]);
+			}
 		}
 	}
 

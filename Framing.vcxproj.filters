@@ -30,6 +30,9 @@
     <ClCompile Include="package_collector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="package_sender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="frame.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="package_collector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="package_sender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

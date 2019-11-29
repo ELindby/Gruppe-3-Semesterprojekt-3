@@ -6,6 +6,7 @@
 #include <bitset>
 
 #include "crc.h"
+#include "package_collector.h"
 
 class DeFrame
 {
@@ -18,9 +19,7 @@ public:
 	bool getAckFlag();
 	bool getSpFlag();
 	bool DoubletCheck();
-	bool crcCheck();
-
-	std::bitset<8> trailer;
+	bool CrcCheck();
 
 private:
 
@@ -40,4 +39,5 @@ private:
 	bool oldsq = 0;
 
 	//______Til CRC_______
+	std::bitset<8> trailer;
 };
