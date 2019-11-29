@@ -11,18 +11,18 @@ void PackageSender::SendMessage(std::vector<std::bitset<8>> message) {
 	std::chrono::seconds waitTime(1); //Tid at vendte på ACK i sekunder
 	bool gotAck = false;
 
-	for (size_t i = 0; i < toSend.size(); i++) //Send hver pakke
-	{
-		SendPackage(toSend[i]); //Kalder funktion fra fysisk lag til at sende en pakke som argument
+	//for (size_t i = 0; i < toSend.size(); i++) //Send hver pakke
+	//{
+	//	SendPackage(toSend[i]); //Kalder funktion fra fysisk lag til at sende en pakke som argument
 
-		std::this_thread::sleep_for(waitTime);//Vent på at modtage ACK
-		gotAck = getAck(); //Retunerer true hvis sidste deframed pakke er et ack (datgram længde = 0)
-		while (!gotAck)
-		{
-			//Se om ACK er modtaget
-			SendPackage(toSend[i]);//Send samme pakke igen
-			std::this_thread::sleep_for(waitTime);
-			gotAck = getAck(); //Retunerer true hvis sidste deframed pakke er et ack (datgram længde = 0)
-		}
-	}
+	//	std::this_thread::sleep_for(waitTime);//Vent på at modtage ACK
+	//	gotAck = getAck(); //Retunerer true hvis sidste deframed pakke er et ack (datgram længde = 0)
+	//	while (!gotAck)
+	//	{
+	//		//Se om ACK er modtaget
+	//		SendPackage(toSend[i]);//Send samme pakke igen
+	//		std::this_thread::sleep_for(waitTime);
+	//		gotAck = getAck(); //Retunerer true hvis sidste deframed pakke er et ack (datgram længde = 0)
+	//	}
+	//}
 }
