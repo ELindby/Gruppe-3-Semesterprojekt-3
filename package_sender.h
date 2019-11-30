@@ -5,6 +5,10 @@
 #include <iostream>
 
 #include "frame.h"
+#include "deframe.h"
+
+Frame framer;
+bool DeFrame::ack;
 
 class PackageSender
 {

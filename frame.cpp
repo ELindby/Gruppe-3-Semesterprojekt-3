@@ -71,15 +71,21 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 	int msgSize = message.size();
 	int antalPakker = ceil(msgSize / maxDataSize) + 1;
 	bool lastPck = false;
-	std::vector<std::bitset<8>> datagram;
+	std::vector<std::bitset<8>> datagram = {};
 	int datagramSize = 0;
 	int dataLeft;
 
-	if (msgSize <= 0) //Hvis besked er tom. Tilføj kun header
+	if (msgSize <= 0) //Hvis besked er tom. Tilføj kun header og Trailer
 	{
 		lastPck = true;
-		datagram = { AddHeader(lastPck, datagramSize) };
+
+		datagram = { (AddHeader(lastPck, datagramSize)) }; //Tilføj header
+
+		AddTrailer(datagram);
+		datagram.push_back(crcCodeword); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+
 		slicedMessage.push_back(datagram);
+		return;
 	}
 
 	while (byteIndex < msgSize) //Er betingelsen IKKE opfyldt

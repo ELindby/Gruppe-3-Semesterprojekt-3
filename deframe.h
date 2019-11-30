@@ -14,12 +14,16 @@ public:
 	DeFrame();
 	~DeFrame();
 
+	static bool ack; //Er true hvis pakken er et ack
+
 	void UnPack(std::vector<std::bitset<8>> package);
 	std::vector<std::bitset<8>> getDatagram();
 	bool getAckFlag();
 	bool getSpFlag();
 	bool DoubletCheck();
 	bool CrcCheck();
+
+	std::vector<std::bitset<8>> getPackageContainer();
 
 private:
 
@@ -30,7 +34,6 @@ private:
 	bool sq; //seq. nr. bit
 	int dataSize; //Antal bytes i pakken
 	bool sp; //Er det sidste pakke i beskeden
-	bool ack; //Tjek om pakke er ack
 
 	//______Datagram
 	std::vector<std::bitset<8>> datagram;

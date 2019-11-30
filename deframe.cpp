@@ -40,6 +40,8 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	Hi(package[0]); //Get header information
 	header = package[0]; //save header
 	trailer = package[dataSize+1]; //save trailer
+	bool crcCheck;
+	bool dubletCheck;
 
 	std::bitset<8> workingByte;
 
@@ -54,7 +56,9 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 
 	//Add til package collector
 	//SKAL ske til sidst i funktionen
-	packageCollector.AddToCollector();
+	crcCheck = CrcCheck();
+	dubletCheck = DoubletCheck();
+	packageCollector.AddToCollector(crcCheck, dubletCheck, dataSize, sp, datagram);
 }
 
 std::vector<std::bitset<8>> DeFrame::getDatagram() {
@@ -118,4 +122,8 @@ bool DeFrame::DoubletCheck() {
 	{
 		return true;
 	}
+}
+ 
+std::vector<std::bitset<8>> DeFrame::getPackageContainer() {
+	return packageCollector.packageContainer;
 }

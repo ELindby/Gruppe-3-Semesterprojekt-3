@@ -27,7 +27,7 @@ private:
 
 	std::vector<std::vector<std::bitset<8>>> slicedMessage;
 
-	const int maxDataSize = 31; //Max antal bytes i datagrammet.
+	const int maxDataSize = 2;//31; //Max antal bytes i datagrammet.
 
 	//Til header_____________
 	std::bitset<8> AddHeader(bool lastPackage, int size);
