@@ -7,6 +7,7 @@
 PackageCollector::PackageCollector() {}
 PackageCollector::~PackageCollector() {}
 
+
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
 
 	//Se først om pakken "består crc"
@@ -22,12 +23,12 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		return;
 	}
 
-	//Kalder funktion fra fysisk lag til at sende et ACK
-
-	sf::sleep(sf::milliseconds(1000)); // wait for sender to be ready
-	std::cout << "sender ack" << std::endl;
-
-	SendACK();
+	//Send ikke ACK til ack
+	if (!DeFrame::ack)
+	{
+		SendACK();	//Kalder funktion fra fysisk lag til at sende et ACK
+		std::cout << "sender ack" << std::endl;
+	}
 
 	//Tilføj til packageContainer hvis ingen fejl og ikke dublet
 	for (size_t i = 0; i < dataSize; i++)
@@ -36,11 +37,11 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	}
 
 	//Se om pakken er den sidste i beskeden
-	//if (spFlag)
-	//{
-	//	//MessageToApp(); //Kalder funktion fra applikations laget til at display beskeden
-	//	packageContainer = {}; //Tøm packageContainer til ny besked
-	//}
+	if (spFlag)
+	{
+		//MessageToApp(); //Kalder funktion fra applikations laget til at display beskeden
+		packageContainer = {}; //Tøm packageContainer til ny besked
+	}
 	return;
 }
 
