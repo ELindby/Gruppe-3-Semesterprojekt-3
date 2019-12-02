@@ -6,6 +6,8 @@
 #include <ctime>
 #include <thread>
 
+bool DTMFRecorder::pauseRecording = false;
+
 DTMFRecorder::DTMFRecorder()
 {
 }
@@ -34,6 +36,13 @@ void DTMFRecorder::determineHigh()
 
 bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampleCount)
 {
+	if (pauseRecording == true)
+	{
+		return true;
+	}
+
+	std::cout << "røv" << std::endl;
+
 	// start timer
 	if (sync == true)
 	{
@@ -54,19 +63,18 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	if (savingMessage == true)
 	{
 		saveRecording(currentFreqL, currentFreqH);
-		convertFromDTMF(recordedMessage);
-
-		// check for end signal
-		if (currentFreqL == 697 && currentFreqH == 1209)
-		{
-			if (lastFreqL == 697 && lastFreqH == 1209)
+		// convertFromDTMF(recordedMessage);
+			if (currentFreqL == 697 && currentFreqH == 1209)
 			{
-				savingMessage = false;
-				std::cout << "Stop saving" << std::endl;
+				if (lastFreqL == 697 && lastFreqH == 1209)
+				{
+					savingMessage = false;
+					std::cout << "Stop saving" << std::endl;
+					compareTones = false;
 
-				convertFromDTMF(recordedMessage);
+					convertFromDTMF(recordedMessage);
+				}
 			}
-		}
 	}
 
 	// if start signal is recorded -> start saving recordings
@@ -78,47 +86,50 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			{
 				savingMessage = true;
 				std::cout << "Start saving" << std::endl;
+				compareTones == true;
 			}
 		}
 	}
+
+	compareTones = !compareTones;
 
 	// Temporarily save this data
 	lastFreqL = currentFreqL;
 	lastFreqH = currentFreqH;
 
-	// Constant Synchronization
-	if(sync == true)
-	{
-		duration = ((std::clock() - begin) / (double)CLOCKS_PER_SEC)*1000;
-		setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
-		// std::cout << "Process time " << duration << " milliseconds" << std::endl;
-		// std::cout << "Next interval is " << processInterval - duration << " milliseconds" << std::endl;
-
-	}
-
-	//// Fixed Synchronization
-	//if (sync == true)
+	//// Constant Synchronization
+	//if(sync == true)
 	//{
-	//	int timesToMeasure = 20;
+	//	duration = ((std::clock() - begin) / (double)CLOCKS_PER_SEC)*1000;
+	//	setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
+	//	// std::cout << "Process time " << duration << " milliseconds" << std::endl;
+	//	// std::cout << "Next interval is " << processInterval - duration << " milliseconds" << std::endl;
 
-	//	if (syncCounter < timesToMeasure)
-	//	{
-	//		duration = (std::clock() - begin) / (double)CLOCKS_PER_SEC;
-	//		std::cout << duration << '\n';
-
-	//		avgProcessTime = avgProcessTime + duration;
-	//		syncCounter = syncCounter + 1;
-	//		std::cout << "synchronizing ..." << std::endl;
-	//	}
-	//	if (syncCounter == timesToMeasure)
-	//	{
-	//		avgProcessTime = (avgProcessTime / timesToMeasure)*1000;
-	//		setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
-	//		std::cout << "Sync done. Avg process time: " << avgProcessTime << " milliseconds" << std::endl;
-	//		std::cout << "Process interval set to:" << processInterval - avgProcessTime << " milliseconds" << std::endl;
-	//		sync = false;
-	//	}
 	//}
+
+	// Fixed Synchronization
+	if (sync == true)
+	{
+		int timesToMeasure = 10;
+
+		if (syncCounter < timesToMeasure)
+		{
+			duration = (std::clock() - begin) / (double)CLOCKS_PER_SEC;
+			std::cout << duration << '\n';
+
+			avgProcessTime = avgProcessTime + duration;
+			syncCounter = syncCounter + 1;
+			std::cout << "synchronizing ..." << std::endl;
+		}
+		if (syncCounter == timesToMeasure)
+		{
+			avgProcessTime = (avgProcessTime / timesToMeasure)*1000;
+			setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
+			std::cout << "Sync done. Avg process time: " << avgProcessTime << " milliseconds" << std::endl;
+			std::cout << "Process interval set to:" << processInterval - avgProcessTime << " milliseconds" << std::endl;
+			sync = false;
+		}
+	}
 	return true; // continue recording
 }
 
@@ -245,6 +256,17 @@ void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 
 void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 {
+	// check if even number if nibbles has been received
+	std::cout << recordedMessage.size() << std::endl;
+
+	if (recordedMessage.size() % 4 == 0)
+	{
+		std::cout << "No error in physical layer" << std::endl;
+	}
+	else {
+		std::cout << "Uneven number of tones heard" << std::endl;
+	}
+
 	std::vector<std::bitset<8>> unwrappedMessage;
 
 	// Combine 4 frequencies to a single character
@@ -318,7 +340,7 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		unwrappedMessage.push_back(binaryValue);
 	}
 	// Remove last element of vector (end signal)
-	//unwrappedMessage.pop_back();
+	 unwrappedMessage.pop_back();
 
 	// convert to char (for testing)
 	std::vector<char> messageAsString;
@@ -334,6 +356,9 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 	}
 
 	std::cout << std::endl;
+
+	//deframe
+	deframer.UnPack(unwrappedMessage);
 
 }
 

@@ -3,6 +3,7 @@
 #include "Recorder.h"
 #include "SoundGenerator.h"
 #include "package_sender.h"
+#include "deframe.h"
 
 #include <SFML/Audio.hpp>
 #include <math.h>
@@ -39,8 +40,11 @@ int main() {
 		msg.push_back(std::bitset<8>(input[i]));
 	}
 
-	SoundGenerator generator;
-	generator.convertToDTMF(msg);
+	//SoundGenerator generator;
+	//generator.convertToDTMF(msg);
+
+	PackageSender sender;
+	sender.SendMessage(msg);
 
 	// std::vector<std::bitset<8>> msg = { 0b00110011, 0b00110011 };
 

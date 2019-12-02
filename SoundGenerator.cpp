@@ -1,4 +1,5 @@
 #include "SoundGenerator.h"
+#include "deframe.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -130,12 +131,12 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			toneL[i] = 128 * (63 * sin(i * piPoduct1L) + 63 * sin(i * piPoduct1U));
 		}
 
-		// apply window
-		int n = nSamples - 1;
-		for (int i = 0; i < nSamples; i++) {
-			double multiplier = (1 - abs((i - (n / 2)) / ((n+2) / 2)));
-			toneL[i] = (multiplier * toneL[i]);
-		}
+		//// apply window
+		//int n = nSamples - 1;
+		//for (int i = 0; i < nSamples; i++) {
+		//	double multiplier = (1 - abs((i - (n / 2)) / ((n+2) / 2)));
+		//	toneL[i] = (multiplier * toneL[i]);
+		//}
 
 		duration = ((std::clock() - start) / (float)CLOCKS_PER_SEC) * 1000; // save time measured
 

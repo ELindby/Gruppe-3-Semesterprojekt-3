@@ -15,5 +15,5 @@ public:
 	std::vector<std::bitset<8>> packageContainer;
 
 private:
-
+	std::vector<std::bitset<8>> ack = {};
 };

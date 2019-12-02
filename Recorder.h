@@ -10,6 +10,7 @@ public:
 	~DTMFRecorder();
 
 	virtual bool onStart();
+	static bool pauseRecording;
 
 	void determineLow();
 	void determineHigh();
@@ -38,6 +39,7 @@ private:
 	bool sync;
 	float avgProcessTime = 0;
 	int syncCounter = 0;
+	bool compareTones = false;
 
 	std::clock_t begin;
 	float duration;

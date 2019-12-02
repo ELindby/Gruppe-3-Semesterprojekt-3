@@ -1,4 +1,6 @@
 #include "package_collector.h"
+#include "package_sender.h"
+#include "Recorder.h"
 
 PackageCollector::PackageCollector() {}
 PackageCollector::~PackageCollector() {}
@@ -17,7 +19,15 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		return;
 	}
 
-	//SendACK(); //Kalder funktion fra fysisk lag til at sende et ACK
+	//Kalder funktion fra fysisk lag til at sende et ACK
+
+	sf::sleep(sf::milliseconds(1000)); // wait for sender to be ready
+	std::cout << "sender ack" << std::endl;
+
+	DTMFRecorder::pauseRecording = true; // stop med at lytte
+	PackageSender ackSender;
+	ackSender.SendMessage(std::vector<std::bitset<8>>{});
+	DTMFRecorder::pauseRecording = true; // start med at lytte
 
 	//Tilføj til packageContainer hvis ingen fejl og ikke dublet
 	for (size_t i = 0; i < dataSize; i++)
