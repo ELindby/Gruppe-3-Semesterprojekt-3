@@ -355,11 +355,13 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 
 	std::cout << std::endl;
 
+	//
+	saveBuffer.clear();
+
 	//deframe
 	deframer.UnPack(unwrappedMessage);
 
-	//
-	saveBuffer.clear();
+
 }
 
 

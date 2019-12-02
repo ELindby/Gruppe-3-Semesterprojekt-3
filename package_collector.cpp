@@ -18,6 +18,7 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	//Se om pakken er en dublet
 	if (dc)
 	{
+		SendACK();
 		return;
 	}
 
