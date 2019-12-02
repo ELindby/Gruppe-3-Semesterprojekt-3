@@ -29,7 +29,7 @@ private:
 	const double pi = 3.14159265358979323846;
 	const int sampleRate = 8000;
 	const std::vector<int> DTMFtones{ 697, 770, 852, 941, 1209, 1336, 1477, 1633 };
-	std::vector<int> recordedMessage;
+	std::vector<int> saveBuffer;
 	int highL, highH;
 	int lastFreqL, lastFreqH;
 	int processCounter;

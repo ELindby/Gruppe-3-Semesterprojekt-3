@@ -70,7 +70,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 					std::cout << "Stop saving" << std::endl;
 					compareTones = false;
 
-					convertFromDTMF(recordedMessage);
+					convertFromDTMF(saveBuffer);
 				}
 			}
 	}
@@ -172,8 +172,8 @@ std::vector<float> DTMFRecorder::hannWindow(const sf::Int16 * samples, std::size
 void DTMFRecorder::saveRecording(int lowFreq, int highFreq)
 {
 	// Save low frequency first, then high
-	recordedMessage.push_back(lowFreq);
-	recordedMessage.push_back(highFreq);
+	saveBuffer.push_back(lowFreq);
+	saveBuffer.push_back(highFreq);
 }
 
 void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
@@ -358,6 +358,8 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 	//deframe
 	deframer.UnPack(unwrappedMessage);
 
+	//
+	saveBuffer.clear();
 }
 
 
