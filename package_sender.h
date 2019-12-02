@@ -5,6 +5,7 @@
 
 #include "frame.h"
 #include "SoundGenerator.h"
+#include "Recorder.h"
 #include "deframe.h"
 
 class PackageSender

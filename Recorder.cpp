@@ -41,8 +41,6 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		return true;
 	}
 
-	std::cout << "røv" << std::endl;
-
 	// start timer
 	if (sync == true)
 	{

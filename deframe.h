@@ -6,13 +6,14 @@
 #include <bitset>
 
 #include "crc.h"
-#include "package_collector.h"
 
 class DeFrame
 {
 public:	
 	DeFrame();
 	~DeFrame();
+
+	CRC crcClass;
 
 	static bool ack; //Er true hvis pakken er et ack
 

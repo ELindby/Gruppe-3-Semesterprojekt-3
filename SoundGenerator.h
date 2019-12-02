@@ -9,6 +9,9 @@
 #include <bitset>
 #include <cassert>
 
+#include "deframe.h"
+
+
 class SoundGenerator
 {
 public:

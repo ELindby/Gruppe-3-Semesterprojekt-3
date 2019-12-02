@@ -1,10 +1,9 @@
 #include "deframe.h"
-
+#include "package_collector.h"
 
 DeFrame::DeFrame() {};
 DeFrame::~DeFrame() {};
 
-CRC crcClass;
 PackageCollector packageCollector;
 
 bool DeFrame::ack = false;

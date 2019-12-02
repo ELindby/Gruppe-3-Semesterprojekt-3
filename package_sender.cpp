@@ -1,5 +1,4 @@
 #include "package_sender.h"
-#include "Recorder.h"
 
 PackageSender::PackageSender(){}
 PackageSender::~PackageSender(){}
