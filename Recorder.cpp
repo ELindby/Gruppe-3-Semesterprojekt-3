@@ -89,6 +89,21 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		}
 	}
 
+	// If no dtmf tones heard -> false alarm -> stop saving
+	if (savingMessage == true)
+	{
+		if (currentFreqL == 0 && currentFreqH == 0)
+		{
+			if (lastFreqL == 0 && lastFreqH == 0)
+			{
+				std::cout << "false alarm" << std::endl;
+				savingMessage = false;
+				saveBuffer.clear(); // clear buffer
+				
+			}
+		}
+	}
+
 	compareTones = !compareTones;
 
 	// Temporarily save this data
@@ -215,7 +230,7 @@ void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 	float sum_of_magnitudes;
 	sum_of_magnitudes = (std::accumulate(magnitudesH.begin(), magnitudesH.end(), 0)) + (std::accumulate(magnitudesL.begin(), magnitudesL.end(), 0));
 
-	if ((magnitudesL[indexL] > (sum_of_magnitudes / 3)) || (magnitudesH[indexH - 4] > (sum_of_magnitudes / 3)))
+	if ((magnitudesL[indexL] > (sum_of_magnitudes / 4)) || (magnitudesH[indexH - 4] > (sum_of_magnitudes / 4)))
 	{
 		if (magnitudesL[indexL] > magnitudesH[indexH - 4])
 		{
@@ -248,7 +263,6 @@ void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 		currentFreqL = 0;
 		currentFreqH = 0;
 	}
-
 		return;
 }
 
@@ -355,7 +369,7 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 
 	std::cout << std::endl;
 
-	//
+	// clear buffer
 	saveBuffer.clear();
 
 	//deframe
