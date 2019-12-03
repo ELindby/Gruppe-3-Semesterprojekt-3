@@ -15,6 +15,13 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		return;
 	}
 
+	//Send ikke ACK til ack
+	if (!DeFrame::ack)
+	{
+		return;
+	}
+
+
 	//Se om pakken er en dublet
 	if (dc)
 	{
@@ -22,12 +29,7 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		return;
 	}
 
-	//Send ikke ACK til ack
-	if (!DeFrame::ack)
-	{
-		SendACK();	//Kalder funktion fra fysisk lag til at sende et ACK
-		std::cout << "sender ack" << std::endl;
-	}
+	SendACK();
 
 	//Tilføj til packageContainer hvis ingen fejl og ikke dublet
 	for (size_t i = 0; i < dataSize; i++)
