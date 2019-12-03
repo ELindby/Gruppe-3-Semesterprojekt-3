@@ -82,7 +82,7 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 		datagram = { (AddHeader(lastPck, datagramSize)) }; //Tilføj header
 
 		AddTrailer(datagram);
-		datagram.push_back(crcCodeword); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+		datagram.push_back(trailer); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
 
 		slicedMessage.push_back(datagram);
 		return;
@@ -114,7 +114,7 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 
 																			 //!Det er er vigtigt at header kommer på før datagrammet! 
 		AddTrailer(datagram);
-		datagram.push_back(crcCodeword); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+		datagram.push_back(trailer); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
 
 		slicedMessage.push_back(datagram); //Indsæt pakke i Array med paker der udgør en besked
 	}
@@ -161,7 +161,7 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 		str_codeWord += std::to_string(fromCRC[i]);
 	}
 
-	crcCodeword = std::bitset<8>(str_codeWord);
+	trailer = std::bitset<8>(str_codeWord).set(7);
 }
 
 //TIL TESTING
