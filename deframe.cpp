@@ -37,7 +37,14 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	PackageCollector packageCollector;
 
 	oldsq = sq; //Opdater oldsq 
-	Hi(package[0]); //Get header information
+	try {
+		Hi(package[0]); //Get header information
+	}
+	catch (const std::out_of_range & oor) {//Check for vector out of range
+		std::cerr << "Out of Range error: " << oor.what() << '\n';
+		return;
+	}
+	//Hi(package[0]); //Get header information
 	header = package[0]; //save header
 	trailer = package[dataSize+1]; //save trailer
 	bool crcCheck;
@@ -47,6 +54,12 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 
 	//Tøm datagram
 	datagram = {};
+
+	if (dataSize != (package.size()-2) ) //If some data was lost
+	{
+		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
+		return;
+	}
 
 	for (size_t i = 1; i <= dataSize; i++)
 	{
