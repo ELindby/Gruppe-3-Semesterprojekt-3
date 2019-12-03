@@ -38,5 +38,5 @@ private:
 
 	//Til trailer____________
 	void AddTrailer(std::vector<std::bitset<8>> headerAndDatagram);
-	std::bitset<8> crcCodeword = 0b11111111; //Midlertidig værdi
+	std::bitset<8> trailer = 0b11111111; //Midlertidig værdi
 };
