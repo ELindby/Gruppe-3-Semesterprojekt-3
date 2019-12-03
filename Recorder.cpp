@@ -360,8 +360,6 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 
 	//deframe
 	deframer.UnPack(unwrappedMessage);
-
-
 }
 
 

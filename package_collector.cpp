@@ -1,12 +1,11 @@
 #include "package_collector.h"
-
-#include "deframe.h"
 #include "frame.h"
 #include "SoundGenerator.h"
 
 PackageCollector::PackageCollector() {}
 PackageCollector::~PackageCollector() {}
 
+std::vector<std::bitset<8>> PackageCollector::packageContainer;
 
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
 
@@ -33,14 +32,19 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	//Tilføj til packageContainer hvis ingen fejl og ikke dublet
 	for (size_t i = 0; i < dataSize; i++)
 	{
-		packageContainer.push_back(datagram[i]);
+		PackageCollector::packageContainer.push_back(datagram[i]);
 	}
 
 	//Se om pakken er den sidste i beskeden
 	if (spFlag)
 	{
 		//MessageToApp(); //Kalder funktion fra applikations laget til at display beskeden
-		packageContainer = {}; //Tøm packageContainer til ny besked
+		for (size_t i = 0; i < packageContainer.size(); i++)
+		{
+			std::cout << packageContainer[i];
+		}
+		std::cout << std::endl;
+		PackageCollector::packageContainer = {}; //Tøm packageContainer til ny besked
 	}
 	return;
 }

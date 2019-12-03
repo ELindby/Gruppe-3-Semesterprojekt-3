@@ -4,8 +4,6 @@
 DeFrame::DeFrame() {};
 DeFrame::~DeFrame() {};
 
-PackageCollector packageCollector;
-
 bool DeFrame::ack = false;
 
 //Hi er Header information
@@ -36,6 +34,7 @@ void DeFrame::Hi(std::bitset<8> package) {
 }
 
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
+	PackageCollector packageCollector;
 
 	oldsq = sq; //Opdater oldsq 
 	Hi(package[0]); //Get header information
@@ -125,6 +124,6 @@ bool DeFrame::DoubletCheck() {
 	}
 }
  
-std::vector<std::bitset<8>> DeFrame::getPackageContainer() {
-	return packageCollector.packageContainer;
-}
+//std::vector<std::bitset<8>> DeFrame::getPackageContainer() {
+//	return packageCollector.packageContainer;
+//}
