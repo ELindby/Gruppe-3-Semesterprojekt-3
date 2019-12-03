@@ -161,7 +161,7 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 		str_codeWord += std::to_string(fromCRC[i]);
 	}
 
-	trailer = std::bitset<8>(str_codeWord).set(7);
+	trailer = std::bitset<8>(str_codeWord).set(7); //.set(7) laver bit på plads 7 til 1: [1]xxxxxxx
 }
 
 //TIL TESTING
