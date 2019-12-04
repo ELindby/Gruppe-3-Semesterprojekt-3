@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include <bitset>
+#include <string>
 
 #include "crc.h"
 

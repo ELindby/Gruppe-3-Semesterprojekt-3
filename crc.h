@@ -15,7 +15,7 @@ public:
 	bool receiverCheck(std::vector<int> messageInput);
 
 private:
-	std::vector<int> generator = { 1, 1, 1, 0, 0, 1, 1, 1 }; //CRC-8-AUTOSAR
+	std::vector<int> generator = { 1, 1, 1, 0, 0, 1, 1, 1, 1 }; //CRC-8-AUTOSAR
 	int genLength = generator.size();
 	std::vector<int> temp, codeWord, finalMessage;
 	int i, k, j;

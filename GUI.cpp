@@ -72,6 +72,7 @@ void GUI::setupGUI()
 					std::string nextMessage = typedText;
 					conversation.emplace_back(nextMessage, true); // true: I sent the message & false: I recieved the message
 
+					nextMessageAsBitset = {};
 					for (size_t i = 0; i < nextMessage.size(); i++)
 					{
 						std::bitset<8> newBitset(nextMessage[i]);
