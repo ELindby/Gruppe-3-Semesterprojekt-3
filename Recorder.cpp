@@ -124,7 +124,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	// Fixed Synchronization
 	if (sync == true)
 	{
-		int timesToMeasure = 10;
+		int timesToMeasure = 20;
 
 		if (syncCounter < timesToMeasure)
 		{
@@ -180,8 +180,8 @@ std::vector<float> DTMFRecorder::hannWindow(const sf::Int16 * samples, std::size
 	std::vector<float> windowedSignal;
 
 	for (int i = 0; i < sampleCount; i++) {
-		double multiplier = 0.5 * (1 - cos(2 * pi*i / (sampleCount - 1)));
-		windowedSignal.push_back(multiplier * samples[i]);
+		// double multiplier = 0.5 * (1 - cos(2 * pi*i / (sampleCount - 1)));
+		windowedSignal.push_back(samples[i]);
 	}
 	return windowedSignal;
 }
@@ -302,6 +302,8 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		case 941:
 			binaryValue = 0b00001100;
 			break;
+		default:
+			binaryValue = 0b0000000;
 		}
 
 		switch (recordedMessage[i * 4 + 1])
@@ -318,6 +320,8 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		case 1633:
 			binaryValue |= 0b00000011;
 			break;
+		default:
+			binaryValue = 0b0000000;
 		}
 
 		switch (recordedMessage[i * 4 + 2])
@@ -334,6 +338,8 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		case 941:
 			binaryValue |= 0b11000000;
 			break;
+		default:
+			binaryValue = 0b0000000;
 		}
 
 		switch (recordedMessage[i * 4 + 3])
@@ -350,6 +356,8 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		case 1633:
 			binaryValue |= 0b00110000;
 			break;
+		default:
+			binaryValue = 0b0000000;
 		}
 		unwrappedMessage.push_back(binaryValue);
 	}
@@ -374,8 +382,6 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 	// clear buffer
 	saveBuffer.clear();
 
-	//deframe
+	// deliver to datalink layer (deframe)
 	deframer.UnPack(unwrappedMessage);
 }
-
-
