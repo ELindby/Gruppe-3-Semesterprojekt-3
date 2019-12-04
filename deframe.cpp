@@ -37,6 +37,7 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	PackageCollector packageCollector;
 
 	oldsq = sq; //Opdater oldsq 
+
 	try {
 		Hi(package[0]); //Get header information
 	}

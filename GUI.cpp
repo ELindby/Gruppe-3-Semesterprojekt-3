@@ -11,6 +11,7 @@ GUI::~GUI()
 
 bool PackageCollector::static_spFlag;
 //std::vector<std::bitset<8>> PackageCollector::GetMsg();
+//std::vector<std::bitset<8>> PackageCollector::packageContainer;
 
 void GUI::setupGUI()
 {
@@ -165,7 +166,7 @@ void GUI::setupGUI()
 
 void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 {
-	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis ikke sidste pakke i package collector har spFlag = true
+	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis pakke er tom
 	{
 		return; 
 	}
@@ -180,6 +181,7 @@ void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 
 	// Adds recieved message to printed conversation
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
+	PackageCollector::static_spFlag = false;
 }
 
 //GUI& GUI::GUIinstance()
