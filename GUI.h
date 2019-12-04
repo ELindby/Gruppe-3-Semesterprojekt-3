@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "package_sender.h"
+#include "package_collector.h"
 
 #include <iostream>
 #include <bitset>
@@ -15,7 +16,7 @@ public:
 	GUI();
 	~GUI();
 
-	static GUI& GUIinstance();
+	//static GUI& GUIinstance();
 
 	void setupGUI();
 	void addMessage(std::vector<std::bitset<8>> recievedMessage);

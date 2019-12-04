@@ -6,8 +6,12 @@ PackageCollector::PackageCollector() {}
 PackageCollector::~PackageCollector() {}
 
 std::vector<std::bitset<8>> PackageCollector::packageContainer;
+//bool PackageCollector::static_spFlag;
+
 
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
+
+	static_spFlag = spFlag; //Dette flag skal bruges af GetMsg()
 
 	//Se først om pakken "består crc"
 	if (!crc)
@@ -62,4 +66,12 @@ void PackageCollector::SendACK() {
 	sg.convertToDTMF(framer.GetPackages()[0]);
 
 	DTMFRecorder::pauseRecording = false; // start med at lytte
+}
+
+std::vector<std::bitset<8>> PackageCollector::GetMsg() {
+	if (!static_spFlag)
+	{
+		return std::vector<std::bitset<8>>{}; //Return tom vektor hvis funktionen kaldes og sidste pakke i beskeden ikke er der.
+	}
+	return packageContainer;
 }

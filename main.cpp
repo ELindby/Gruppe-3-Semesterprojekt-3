@@ -1,7 +1,7 @@
-#include "send.h"
-#include "receive.h"
+//#include "send.h"
+//#include "receive.h"
 #include "Recorder.h"
-#include "SoundGenerator.h"
+//#include "SoundGenerator.h"
 //#include "package_sender.h"
 //#include "deframe.h"
 #include "GUI.h"
@@ -20,10 +20,6 @@
 
 int main() {
 	
-	//GUI gui_thread;
-	sf::Thread thread(&GUI::setupGUI, &GUI::GUIinstance());
-	thread.launch();
-	
 	// Check that audio is available
 	if (!sf::SoundRecorder::isAvailable())
 	{
@@ -33,6 +29,14 @@ int main() {
 	DTMFRecorder recorder;
 	// Start recorder
 	recorder.start(8000); // argument = samplerate
+
+	while (DTMFRecorder::static_syncing) //Åben først GUI når recorder er i sync
+	{
+		//Vent
+	}
+	GUI gui_thread;
+	sf::Thread thread(&GUI::setupGUI, &gui_thread);
+	thread.launch();
 
 	//// Message input
 	//std::string input;

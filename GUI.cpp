@@ -9,6 +9,9 @@ GUI::~GUI()
 {
 }
 
+bool PackageCollector::static_spFlag;
+//std::vector<std::bitset<8>> PackageCollector::GetMsg();
+
 void GUI::setupGUI()
 {
 	std::cout << "I'm the setupGUI function" << '\n';
@@ -39,7 +42,6 @@ void GUI::setupGUI()
 
 	while (window.isOpen())
 	{
-
 		// Handle envent
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -150,6 +152,8 @@ void GUI::setupGUI()
 		drawableTypedText.setString(typedText);
 		window.draw(drawableTypedText);
 
+		addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
+
 		//std::cout << '\n' << "window display" << '\n';
 		window.display();
 
@@ -161,6 +165,11 @@ void GUI::setupGUI()
 
 void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 {
+	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis ikke sidste pakke i package collector har spFlag = true
+	{
+		return; 
+	}
+
 	std::string recievedMessageAsString = "";
 	for (size_t i = 0; i < recievedMessage.size(); i++)
 	{
@@ -173,10 +182,10 @@ void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
 }
 
-GUI& GUI::GUIinstance()
-{
-	std::cout << "GUI instance!" << '\n';
-	static GUI theInstance;
-	return theInstance;
-	// TODO: insert return statement here
-}
+//GUI& GUI::GUIinstance()
+//{
+//	std::cout << "GUI instance!" << '\n';
+//	static GUI theInstance;
+//	return theInstance;
+//	// TODO: insert return statement here
+//}

@@ -7,6 +7,7 @@
 #include <thread>
 
 bool DTMFRecorder::pauseRecording = false;
+bool DTMFRecorder::static_syncing = true;
 
 DTMFRecorder::DTMFRecorder()
 {
@@ -141,6 +142,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			std::cout << "Sync done. Avg process time: " << avgProcessTime << " milliseconds" << std::endl;
 			std::cout << "Process interval set to:" << processInterval - avgProcessTime << " milliseconds" << std::endl;
 			sync = false;
+			DTMFRecorder::static_syncing = sync;
 		}
 	}
 	return true; // continue recording

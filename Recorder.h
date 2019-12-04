@@ -12,6 +12,7 @@ public:
 
 	virtual bool onStart();
 	static bool pauseRecording;
+	static bool static_syncing;
 
 	void determineLow();
 	void determineHigh();
