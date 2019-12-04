@@ -9,7 +9,6 @@ void PackageSender::SendMessage(std::vector<std::bitset<8>> message) {
 	std::chrono::seconds waitTime(5); //Tid at vendte på ACK i sekunder
 	std::chrono::seconds wtNextPck(1); //Tid at vendte med at sende næste pakke i sekunder
 
-
 	for (size_t i = 0; i < toSend.size(); i++) //Send hver pakke
 	{
 		SoundGenerator soundGenerator;

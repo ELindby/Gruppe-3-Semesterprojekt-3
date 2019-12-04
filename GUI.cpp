@@ -2,7 +2,7 @@
 
 GUI::GUI() : gui_thread(&GUI::setupGUI, this)
 {
-	std::cout << "I'm the gui thread" << '\n';
+	//std::cout << "I'm the gui thread" << '\n';
 }
 
 GUI::~GUI()
@@ -15,10 +15,10 @@ bool PackageCollector::static_spFlag;
 
 void GUI::setupGUI()
 {
-	std::cout << "I'm the setupGUI function" << '\n';
+	//std::cout << "I'm the setupGUI function" << '\n';
 
 	//Setup window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works - I made a window!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "DTMF chat!");
 	//window.setFramerateLimit(60);
 
 	//Load text font
@@ -178,17 +178,9 @@ void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 		recievedMessageAsString += recievedMessage[i].to_ulong();
 	}
 
-	std::cout << "adMessage function" << '\n';
+	//std::cout << "adMessage function" << '\n';
 
 	// Adds recieved message to printed conversation
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
 	PackageCollector::static_spFlag = false;
 }
-
-//GUI& GUI::GUIinstance()
-//{
-//	std::cout << "GUI instance!" << '\n';
-//	static GUI theInstance;
-//	return theInstance;
-//	// TODO: insert return statement here
-//}

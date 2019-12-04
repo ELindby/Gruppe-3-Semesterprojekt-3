@@ -45,6 +45,18 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 		std::cerr << "Out of Range error: " << oor.what() << '\n';
 		return;
 	}
+
+	if (dataSize != (package.size() - 2)) //If some data was lost
+	{
+		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
+		return;
+	}
+	if(package.size() < 2)
+	{
+		std::cout << "Length of data too short, package discarded." << std::endl;
+		return;
+	}
+
 	//Hi(package[0]); //Get header information
 	header = package[0]; //save header
 	trailer = package[dataSize+1]; //save trailer
@@ -55,12 +67,6 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 
 	//Tøm datagram
 	datagram = {};
-
-	if (dataSize != (package.size()-2) ) //If some data was lost
-	{
-		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
-		return;
-	}
 
 	for (size_t i = 1; i <= dataSize; i++)
 	{
