@@ -21,6 +21,10 @@ void GUI::setupGUI()
 	sf::RenderWindow window(sf::VideoMode(800, 600), "DTMF chat!");
 	//window.setFramerateLimit(60);
 
+	sf::Image icon;
+	icon.loadFromFile("hammer.png");
+	window.setIcon(350,350,icon.getPixelsPtr());
+
 	//Load text font
 	if (!font.loadFromFile("Sansation.ttf"))
 	{
