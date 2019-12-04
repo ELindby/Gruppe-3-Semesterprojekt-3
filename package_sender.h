@@ -14,7 +14,6 @@ public:
 	PackageSender();
 	~PackageSender();
 	void SendMessage(std::vector<std::bitset<8>> message);
-	Frame framer;
 private:
 	std::vector<std::vector<std::bitset<8>>> toSend;
 };

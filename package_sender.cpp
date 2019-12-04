@@ -4,6 +4,9 @@ PackageSender::PackageSender(){}
 PackageSender::~PackageSender(){}
 
 void PackageSender::SendMessage(std::vector<std::bitset<8>> message) {
+
+	Frame framer;
+
 	framer.MessageCutter(message); //Del beskeden op og pak dem ind
 	toSend = framer.GetPackages(); //Retunerer vektor med pakker
 	std::chrono::seconds waitTime(5); //Tid at vendte på ACK i sekunder

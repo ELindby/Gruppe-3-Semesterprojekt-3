@@ -18,7 +18,7 @@ void GUI::setupGUI()
 	//std::cout << "I'm the setupGUI function" << '\n';
 
 	//Setup window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "DTMF chat!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "People's DTMF chat!");
 	//window.setFramerateLimit(60);
 
 	sf::Image icon;
