@@ -63,7 +63,7 @@ int main() {
 
 
 	//Keep program from closing
-	system("pause");
+	Sleep(100000);
 
 	return 0;
 }

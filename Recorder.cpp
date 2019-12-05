@@ -84,7 +84,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			if (lastFreqL == 941 && lastFreqH == 1633)
 			{
 				savingMessage = true;
-				std::cout << '\n' << "Start saving" << std::endl;
+				std::cout << "Start saving" << std::endl;
 				compareTones == true;
 			}
 		}
@@ -126,18 +126,21 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	{
 		int timesToMeasure = 20;
 
+<<<<<<< HEAD
 		if (syncCounter == 0)
 		{
 			std::cout << "Synchronizing . . ." << std::endl;
 		}
+=======
+>>>>>>> 6c88a00fbae4b4465e033e26b09ba0e3ac02ab67
 		if (syncCounter < timesToMeasure)
 		{
 			duration = (std::clock() - begin) / (double)CLOCKS_PER_SEC;
-			//std::cout << duration << '\n';
+			std::cout << duration << '\n';
 
 			avgProcessTime = avgProcessTime + duration;
 			syncCounter = syncCounter + 1;
-			//std::cout << "synchronizing ..." << std::endl;
+			std::cout << "synchronizing ..." << std::endl;
 		}
 		if (syncCounter == timesToMeasure)
 		{
