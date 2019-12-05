@@ -18,7 +18,7 @@ void GUI::setupGUI()
 	//std::cout << "I'm the setupGUI function" << '\n';
 
 	//Setup window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "People's DTMF chat!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "General Secretary CMART's DTMF chat!");
 	//window.setFramerateLimit(60);
 
 	sf::Image icon;
@@ -158,7 +158,8 @@ void GUI::setupGUI()
 		drawableTypedText.setString(typedText);
 		window.draw(drawableTypedText);
 
-		addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
+		addMessage();
+		//addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
 		// PackageCollector::clearContainer(); //Clear container
 
 		//std::cout << '\n' << "window display" << '\n';
@@ -170,12 +171,16 @@ void GUI::setupGUI()
 
 }
 
-void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
+//void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
+void GUI::addMessage()
 {
+	
 	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis pakke er tom
 	{
 		return; 
 	}
+	//std::cout << "PackCol spFlag: " << PackageCollector::static_spFlag;
+	std::vector<std::bitset<8>> recievedMessage = PackageCollector::GetMsg();
 
 	std::string recievedMessageAsString = "";
 	for (size_t i = 0; i < recievedMessage.size(); i++)
