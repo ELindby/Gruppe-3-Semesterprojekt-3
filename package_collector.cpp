@@ -25,10 +25,12 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		return;
 	}
 
+	// std::cout << "spFlag: " << spFlag << std::endl;
 
 	//Se om pakken er en dublet
 	if (dc)
 	{
+		std::cout << "Dublet modtaget" << std::endl;
 		SendACK();
 		return;
 	}
@@ -45,8 +47,6 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	//{
 	//	std::cout << packageContainer[i];
 	//}
-
-	//std::cout << "spFlag: " << spFlag << std::endl;
 
 	//Se om pakken er den sidste i beskeden
 	if (spFlag)

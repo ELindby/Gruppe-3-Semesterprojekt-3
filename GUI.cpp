@@ -159,7 +159,7 @@ void GUI::setupGUI()
 		window.draw(drawableTypedText);
 
 		addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
-		PackageCollector::clearContainer(); //Clear container
+		// PackageCollector::clearContainer(); //Clear container
 
 		//std::cout << '\n' << "window display" << '\n';
 		window.display();
@@ -188,4 +188,5 @@ void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 	// Adds recieved message to printed conversation
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
 	PackageCollector::static_spFlag = false;
+	PackageCollector::clearContainer();
 }
