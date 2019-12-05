@@ -10,7 +10,7 @@ std::bitset<8> Frame::AddHeader(bool lastPackage, int size) {
 
 	dataSize = std::bitset<5>(size);
 	sp = std::bitset<1>(lastPackage);
-
+	sq = ~sq; //seq. nr. bit
 	header = sq.to_string() + sp.to_string() + "0" + dataSize.to_string();
 	return std::bitset<8>(header);
 }
@@ -25,8 +25,6 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 	std::vector<std::bitset<8>> datagram = {};
 	int datagramSize = 0;
 	int dataLeft;
-
-	sq = ~sq; //seq. nr. bit
 
 	if (msgSize <= 0) //Hvis besked er tom. Tilføj kun header og Trailer
 	{

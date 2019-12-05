@@ -79,6 +79,12 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	crcCheck = CrcCheck();
 	dubletCheck = DoubletCheck();
 	packageCollector.AddToCollector(crcCheck, dubletCheck, dataSize, sp, datagram);
+
+	//Reset oldsq hvis besked er slut
+	if (sp == true)
+	{
+		oldsq = 0;
+	}
 }
 
 std::vector<std::bitset<8>> DeFrame::getDatagram() {
