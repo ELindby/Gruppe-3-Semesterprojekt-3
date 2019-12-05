@@ -128,7 +128,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 
 		if (syncCounter == 0)
 		{
-			std::cout << "synchronizing ..." << std::endl;
+			std::cout << "Synchronizing . . ." << std::endl;
 		}
 		if (syncCounter < timesToMeasure)
 		{
