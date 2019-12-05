@@ -159,6 +159,7 @@ void GUI::setupGUI()
 		window.draw(drawableTypedText);
 
 		addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
+		PackageCollector::clearContainer(); //Clear container
 
 		//std::cout << '\n' << "window display" << '\n';
 		window.display();
@@ -171,10 +172,10 @@ void GUI::setupGUI()
 
 void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 {
-	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis pakke er tom
-	{
-		return; 
-	}
+	//if (!PackageCollector::static_spFlag) //Gå ud af scope hvis pakke er tom
+	//{
+	//	return; 
+	//}
 
 	std::string recievedMessageAsString = "";
 	for (size_t i = 0; i < recievedMessage.size(); i++)

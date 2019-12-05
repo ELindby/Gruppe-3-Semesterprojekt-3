@@ -41,8 +41,12 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 		PackageCollector::packageContainer.push_back(datagram[i]);
 	}
 
+	//for (size_t i = 0; i < packageContainer.size(); i++)
+	//{
+	//	std::cout << packageContainer[i];
+	//}
 
-	std::cout << "spFlag: " << spFlag << std::endl;
+	//std::cout << "spFlag: " << spFlag << std::endl;
 
 	//Se om pakken er den sidste i beskeden
 	if (spFlag)
@@ -77,4 +81,8 @@ void PackageCollector::SendACK() {
 
 std::vector<std::bitset<8>> PackageCollector::GetMsg() {
 	return packageContainer;
+}
+
+void PackageCollector::clearContainer() {
+	packageContainer = {};
 }
