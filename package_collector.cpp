@@ -10,6 +10,7 @@ std::vector<std::bitset<8>> PackageCollector::packageContainer;
 
 
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
+	std::cout << "spFlag" << spFlag << std::endl;
 
 	//Se først om pakken "består crc"
 	if (!crc)
