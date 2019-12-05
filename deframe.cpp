@@ -8,16 +8,14 @@ bool DeFrame::ack = false;
 PackageCollector packageCollector;
 
 //Hi er Header information
-void DeFrame::Hi(std::bitset<8> HeaderByte) {
-	std::bitset<8> header = HeaderByte;
+void DeFrame::Hi(std::bitset<8> package) {
+	std::bitset<8> header = package;
 
 	//________________DATA SIZE
 	std::bitset<8> bit_DataSize;
 	bit_DataSize = header & std::bitset<8>(0b00011111);
 
 	dataSize = (int)(bit_DataSize.to_ulong());
-
-	
 
 	//________________ACK
 	if (dataSize == 0)
@@ -37,19 +35,6 @@ void DeFrame::Hi(std::bitset<8> HeaderByte) {
 }
 
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
-	// check for errors - dont save information if packets are discarded
-	std::bitset<8> bit_DataSize = package[0] & std::bitset<8>(0b00011111);
-	int tempdataSize = (int)(bit_DataSize.to_ulong());
-	if (tempdataSize != (package.size() - 2)) //If some data was lost
-	{
-		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
-		return;
-	}
-	if (package.size() < 2)
-	{
-		std::cout << "Length of data too short, package discarded." << std::endl;
-		return;
-	}
 
 	oldsq = sq; //Opdater oldsq 
 
@@ -61,9 +46,20 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 		return;
 	}
 
+	if (dataSize != (package.size() - 2)) //If some data was lost
+	{
+		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
+		return;
+	}
+	if(package.size() < 2)
+	{
+		std::cout << "Length of data too short, package discarded." << std::endl;
+		return;
+	}
+
 	//Hi(package[0]); //Get header information
 	header = package[0]; //save header
-	trailer = package[dataSize + 1]; //save trailer
+	trailer = package[dataSize+1]; //save trailer
 	bool crcCheck;
 	bool dubletCheck;
 
@@ -153,7 +149,7 @@ bool DeFrame::DoubletCheck() {
 		return true;
 	}
 }
-
+ 
 //std::vector<std::bitset<8>> DeFrame::getPackageContainer() {
 //	return packageCollector.packageContainer;
 //}

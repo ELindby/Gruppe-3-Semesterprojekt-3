@@ -10,7 +10,6 @@ std::vector<std::bitset<8>> PackageCollector::packageContainer;
 
 
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
-	std::cout << "spFlag" << spFlag << std::endl;
 
 	//Se først om pakken "består crc"
 	if (!crc)
@@ -22,16 +21,15 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	//Send ikke ACK til ack
 	if (DeFrame::ack)
 	{
-		std::cout << "modtog ack " << spFlag << std::endl;
+		std::cout << "modtog ack " << std::endl;
 		return;
 	}
 
-	// std::cout << "spFlag: " << spFlag << std::endl;
 
 	//Se om pakken er en dublet
 	if (dc)
 	{
-		std::cout << "Dublet modtaget" << std::endl;
+		std::cout << "Var dublet"<< std::endl;
 		SendACK();
 		return;
 	}
@@ -48,6 +46,8 @@ void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFl
 	//{
 	//	std::cout << packageContainer[i];
 	//}
+
+	//std::cout << "spFlag: " << spFlag << std::endl;
 
 	//Se om pakken er den sidste i beskeden
 	if (spFlag)
@@ -84,6 +84,6 @@ std::vector<std::bitset<8>> PackageCollector::GetMsg() {
 	return packageContainer;
 }
 
-void PackageCollector::clearContainer() {
-	packageContainer = {};
-}
+//void PackageCollector::clearContainer() {
+//	packageContainer = {};
+//}

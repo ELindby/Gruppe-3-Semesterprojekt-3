@@ -19,8 +19,7 @@ public:
 	//static GUI& GUIinstance();
 
 	void setupGUI();
-	//void addMessage(std::vector<std::bitset<8>> recievedMessage);
-	void addMessage();
+	void addMessage(std::vector<std::bitset<8>> recievedMessage);
 
 	typedef std::pair<std::string, bool> conversationType;
 	//static conversationType staticConversationType;

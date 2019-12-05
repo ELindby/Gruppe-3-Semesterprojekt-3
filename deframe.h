@@ -32,9 +32,9 @@ private:
 	void Hi(std::bitset<8> package); //Header information i argument pakke
 	std::bitset<8> header;
 
-	bool sq = 0; //seq. nr. bit
+	bool sq; //seq. nr. bit
 	int dataSize; //Antal bytes i pakken
-	bool sp = 0; //Er det sidste pakke i beskeden
+	bool sp; //Er det sidste pakke i beskeden
 
 	//______Datagram
 	std::vector<std::bitset<8>> datagram;

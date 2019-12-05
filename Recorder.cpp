@@ -63,17 +63,17 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	{
 		saveRecording(currentFreqL, currentFreqH);
 		// convertFromDTMF(recordedMessage);
-			if (currentFreqL == 697 && currentFreqH == 1209)
+		if (currentFreqL == 697 && currentFreqH == 1209)
+		{
+			if (lastFreqL == 697 && lastFreqH == 1209)
 			{
-				if (lastFreqL == 697 && lastFreqH == 1209)
-				{
-					savingMessage = false;
-					std::cout << "Stop saving" << std::endl;
-					compareTones = false;
+				savingMessage = false;
+				std::cout << "Stop saving" << std::endl;
+				compareTones = false;
 
-					convertFromDTMF(saveBuffer);
-				}
+				convertFromDTMF(saveBuffer);
 			}
+		}
 	}
 
 	// if start signal is recorded -> start saving recordings
@@ -85,7 +85,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			{
 				savingMessage = true;
 				std::cout << "Start saving" << std::endl;
-				compareTones = true;
+				compareTones == true;
 			}
 		}
 	}
@@ -100,7 +100,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 				std::cout << "false alarm" << std::endl;
 				savingMessage = false;
 				saveBuffer.clear(); // clear buffer
-				
+
 			}
 		}
 	}
@@ -126,11 +126,6 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	{
 		int timesToMeasure = 20;
 
-		if (syncCounter == 0)
-		{
-			std::cout << "Synchronizing . . ." << std::endl;
-		}
-
 		if (syncCounter < timesToMeasure)
 		{
 			duration = (std::clock() - begin) / (double)CLOCKS_PER_SEC;
@@ -142,7 +137,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		}
 		if (syncCounter == timesToMeasure)
 		{
-			avgProcessTime = (avgProcessTime / timesToMeasure)*1000;
+			avgProcessTime = (avgProcessTime / timesToMeasure) * 1000;
 			setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
 			std::cout << "Sync done. Avg process time: " << avgProcessTime << " milliseconds" << std::endl;
 			std::cout << "Process interval set to:" << processInterval - avgProcessTime << " milliseconds" << std::endl;
@@ -241,7 +236,7 @@ void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 	{
 		if (magnitudesL[indexL] > magnitudesH[indexH - 4])
 		{
-			if ( magnitudesH[indexH - 4] > (magnitudesL[indexL] / 2))
+			if (magnitudesH[indexH - 4] > (magnitudesL[indexL] / 2))
 			{
 				if (findLow == true)
 					currentFreqL = freqL;
@@ -265,12 +260,12 @@ void DTMFRecorder::determineDTMF(std::vector<float>& recording, bool findLow)
 				}
 			}
 		}
-	} 
+	}
 	else {
 		currentFreqL = 0;
 		currentFreqH = 0;
 	}
-		return;
+	return;
 }
 
 void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
@@ -367,7 +362,7 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 		unwrappedMessage.push_back(binaryValue);
 	}
 	// Remove last element of vector (end signal)
-	 unwrappedMessage.pop_back();
+	unwrappedMessage.pop_back();
 
 	// convert to char (for testing)
 	std::vector<char> messageAsString;
