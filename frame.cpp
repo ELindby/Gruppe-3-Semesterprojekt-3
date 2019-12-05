@@ -128,7 +128,7 @@ void Frame::PrintMsgSliced() {
 			std::cout << frame[t] << ", ";
 		}
 		std::cout << "}" << std::endl;
-		std::cout << "Datagram size:" << frame.size() -2 << std::endl;
+		std::cout << "Datagram size:" << frame.size() - 2 << std::endl;
 	}
 	std::cout << "Der er " << slicedMessage.size() << " pakker" << std::endl;
 }

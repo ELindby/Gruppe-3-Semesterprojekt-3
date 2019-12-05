@@ -18,7 +18,7 @@ void GUI::setupGUI()
 	//std::cout << "I'm the setupGUI function" << '\n';
 
 	//Setup window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "People's DTMF chat!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "General Secretary CMART's DTMF chat!");
 	//window.setFramerateLimit(60);
 
 	sf::Image icon;
@@ -91,8 +91,15 @@ void GUI::setupGUI()
 
 				else /*if (event.text.unicode < 128 || std::find(specialCharacters.begin(), specialCharacters.end(), event.text.unicode) != specialCharacters.end() )*/
 				{
+					//std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) <<  std::endl;	
+					//std::cout << "unicode for typed character: " << event.text.unicode << std::endl;
+
+					//typedText.push_back((char)event.text.unicode);
+
 					typedText.push_back(static_cast<char>(event.text.unicode));
 				}
+
+				//std::cout << "TypedText: " << typedText << std::endl;
 			}
 
 		} // End of event poll check
@@ -151,7 +158,9 @@ void GUI::setupGUI()
 		drawableTypedText.setString(typedText);
 		window.draw(drawableTypedText);
 
-		addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
+		addMessage();
+		//addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
+		// PackageCollector::clearContainer(); //Clear container
 
 		//std::cout << '\n' << "window display" << '\n';
 		window.display();
@@ -162,12 +171,16 @@ void GUI::setupGUI()
 
 }
 
-void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
+//void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
+void GUI::addMessage()
 {
+	
 	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis pakke er tom
 	{
 		return; 
 	}
+	//std::cout << "PackCol spFlag: " << PackageCollector::static_spFlag;
+	std::vector<std::bitset<8>> recievedMessage = PackageCollector::GetMsg();
 
 	std::string recievedMessageAsString = "";
 	for (size_t i = 0; i < recievedMessage.size(); i++)
@@ -180,4 +193,5 @@ void GUI::addMessage(std::vector<std::bitset<8>> recievedMessage)
 	// Adds recieved message to printed conversation
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
 	PackageCollector::static_spFlag = false;
+	PackageCollector::clearContainer();
 }

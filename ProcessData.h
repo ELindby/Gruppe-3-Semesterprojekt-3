@@ -15,4 +15,3 @@ private:
 	const std::vector<int> DTMFtones{ 697, 770, 852, 941, 1209, 1336, 1477, 1633 };
 	const int sampleRate = 8000;
 };
-
