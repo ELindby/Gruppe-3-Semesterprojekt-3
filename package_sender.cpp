@@ -1,7 +1,7 @@
 #include "package_sender.h"
 
-PackageSender::PackageSender(){}
-PackageSender::~PackageSender(){}
+PackageSender::PackageSender() {}
+PackageSender::~PackageSender() {}
 
 void PackageSender::SendMessage(std::vector<std::bitset<8>> message) {
 
@@ -18,10 +18,11 @@ void PackageSender::SendMessage(std::vector<std::bitset<8>> message) {
 
 		//Er der modtaget et ACK fra forrige pakke
 		//Vent i wtNextPck tid med at sende næste pakke, for at give modtager en chance for at følje med.
-		if (DeFrame::ack)
+		if (i > 0) //on second package being sent or later
 		{
 			std::this_thread::sleep_for(wtNextPck);
 		}
+		DeFrame::ack = false;
 
 		DTMFRecorder::pauseRecording = true; // stop med at lytte
 		soundGenerator.convertToDTMF(toSend[i]);  //Kalder funktion fra fysisk lag til at sende en pakke som argument
