@@ -5,6 +5,7 @@ DeFrame::DeFrame() {};
 DeFrame::~DeFrame() {};
 
 bool DeFrame::ack = false;
+PackageCollector packageCollector;
 
 //Hi er Header information
 void DeFrame::Hi(std::bitset<8> package) {

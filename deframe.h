@@ -16,7 +16,6 @@ public:
 	CRC crcClass;
 
 	static bool ack; //Er true hvis pakken er et ack
-	PackageCollector packageCollector;
 
 	void UnPack(std::vector<std::bitset<8>> package);
 	std::vector<std::bitset<8>> getDatagram();
