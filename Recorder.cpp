@@ -84,7 +84,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			if (lastFreqL == 941 && lastFreqH == 1633)
 			{
 				savingMessage = true;
-				std::cout << "Start saving" << std::endl;
+				std::cout << '\n' << "Start saving" << std::endl;
 				compareTones == true;
 			}
 		}
