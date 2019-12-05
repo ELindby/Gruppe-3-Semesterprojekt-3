@@ -33,7 +33,7 @@ private:
 	//Til header_____________
 	std::bitset<8> AddHeader(bool lastPackage, int size);
 
-	std::bitset<1> sq = 0; //seq. nr. bit
+	static std::bitset<1> sq; //seq. nr. bit
 	std::bitset<5> dataSize; //Antal bytes i pakken
 	std::bitset<1> sp; //sidste pakke flag
 
