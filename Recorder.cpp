@@ -85,7 +85,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			{
 				savingMessage = true;
 				std::cout << "Start saving" << std::endl;
-				compareTones == true;
+				compareTones = true;
 			}
 		}
 	}
@@ -125,7 +125,6 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	if (sync == true)
 	{
 		int timesToMeasure = 20;
-
 
 		if (syncCounter == 0)
 		{
