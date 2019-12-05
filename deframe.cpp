@@ -34,7 +34,6 @@ void DeFrame::Hi(std::bitset<8> package) {
 }
 
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
-	PackageCollector packageCollector;
 
 	oldsq = sq; //Opdater oldsq 
 
