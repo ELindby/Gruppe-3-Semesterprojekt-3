@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include <SFML/Audio.hpp>
 
 GUI::GUI() : gui_thread(&GUI::setupGUI, this)
 {
@@ -25,8 +26,13 @@ void GUI::setupGUI()
 	icon.loadFromFile("hammer.png");
 	window.setIcon(350,350,icon.getPixelsPtr());
 
+	// play music
+	sf::Music music;
+	music.openFromFile("ussr8bit.wav");
+	music.play();
+
 	//Load text font
-	if (!font.loadFromFile("Sansation.ttf"))
+	if (!font.loadFromFile("kremlin.ttf"))
 	{
 		// Should trow error
 		std::cout << "FONT FaiL!" << '\n';
@@ -34,7 +40,7 @@ void GUI::setupGUI()
 
 	// Make typing box
 	sf::RectangleShape typeBox(sf::Vector2f(window.getSize().x - (2 * edgeWidth), typeingBoxHeight));
-	typeBox.setFillColor(sf::Color::Color(180, 180, 180, 80/*216, 216, 216, 85*/));
+	typeBox.setFillColor(sf::Color::Yellow);
 	typeBox.move(edgeWidth, window.getSize().y - edgeWidth);
 
 
@@ -107,7 +113,7 @@ void GUI::setupGUI()
 		sf::Mutex mutex;
 		mutex.lock();
 
-		window.clear(sf::Color::White);
+		window.clear(sf::Color::Red);
 
 		float iterator = typeingBoxHeight + edgeWidth + textDisplacement;
 		//std::reverse(conversation.begin(), conversation.end());
