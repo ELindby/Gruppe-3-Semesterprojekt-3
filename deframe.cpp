@@ -80,6 +80,11 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	//Add til package collector
 	//SKAL ske til sidst i funktionen
 	crcCheck = CrcCheck();
+	if (!crcCheck) {
+		sq = oldsq;
+		sp = false; //if package is discarded, sp (which was of last package) will always be 0. 
+		return;
+	}
 	dubletCheck = DoubletCheck();
 	packageCollector.AddToCollector(crcCheck, dubletCheck, dataSize, sp, datagram);
 
