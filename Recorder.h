@@ -37,7 +37,7 @@ private:
 	bool savingMessage = false;
 	int currentFreqL, currentFreqH;
 	std::vector<float> windowedSignal;
-	int processInterval = 500;
+	int processInterval = 300; //500
 	bool sync;
 	float avgProcessTime = 0;
 	int syncCounter = 0;

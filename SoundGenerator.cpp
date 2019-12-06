@@ -148,7 +148,8 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			SoundL.play();
 			sf::sleep(sf::milliseconds(60));
 			SoundL.stop();
-			sf::sleep(sf::milliseconds(440 - duration)); // "pad" the signal with silence
+			sf::sleep(sf::milliseconds(240 - duration)); // "pad" the signal with silence
+			//440 - duration
 		}
 
 }

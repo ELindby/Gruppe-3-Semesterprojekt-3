@@ -27,9 +27,9 @@ void GUI::setupGUI()
 	window.setIcon(350,350,icon.getPixelsPtr());
 
 	// play music
-	sf::Music music;
-	music.openFromFile("ussr8bit.wav");
-	music.play();
+	//sf::Music music;
+	//music.openFromFile("ussr8bit.wav");
+	//music.play();
 
 	//Load text font
 	if (!font.loadFromFile("kremlin.ttf"))
