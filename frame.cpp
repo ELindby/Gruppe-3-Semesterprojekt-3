@@ -20,7 +20,8 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 	int byteIndex = 0;
 	int pckIndex = 0;
 	int msgSize = message.size();
-	int antalPakker = ceil(msgSize / maxDataSize);
+	float sizeRatio = (float)msgSize / (float)maxDataSize;
+	int antalPakker = ceil(sizeRatio);
 	bool lastPck = false;
 	std::vector<std::bitset<8>> datagram = {};
 	int datagramSize = 0;
@@ -58,6 +59,8 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 		{
 			lastPck = true;
 		}
+
+		std::cout << lastPck << std::endl; // debug
 
 		datagramSize = datagram.size();
 

@@ -41,7 +41,7 @@ std::vector<int> CRC::senderPreb(std::vector<int> messageInput)  // The vector s
 	for (int i = 0; i < genLength - 1; i++)
 	{
 		codeWord.push_back(temp[messageLength + i]);
-		//std::cout << codeWord[i];
+		/// std::cout << codeWord[i];
 	}
 
 	// Add CRC-check "sum" to the message to be transmitted.

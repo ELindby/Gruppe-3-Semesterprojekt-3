@@ -38,28 +38,27 @@ void DeFrame::Hi(std::bitset<8> HeaderByte) {
 
 void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	// check for errors - dont save information if packets are discarded
-	std::bitset<8> bit_DataSize = package[0] & std::bitset<8>(0b00011111);
-	int tempdataSize = (int)(bit_DataSize.to_ulong());
-	if (tempdataSize != (package.size() - 2)) //If some data was lost
-	{
-		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
-		return;
-	}
 	if (package.size() < 2)
 	{
 		std::cout << "Length of data too short, package discarded." << std::endl;
 		return;
 	}
 
-	oldsq = sq; //Opdater oldsq 
+	std::bitset<8> bit_DataSize = package[0] & std::bitset<8>(0b00011111);
 
-	try {
-		Hi(package[0]); //Get header information
-	}
-	catch (const std::out_of_range & oor) {//Check for vector out of range
-		std::cerr << "Out of Range error: " << oor.what() << '\n';
+
+	int tempdataSize = (int)(bit_DataSize.to_ulong());
+	if (tempdataSize != (package.size() - 2)) //If some data was lost
+	{
+		std::cout << "Length of data recieved is not equal to length in header." << std::endl;
 		return;
 	}
+
+
+	oldsq = sq; //Opdater oldsq 
+
+	Hi(package[0]); //Get header information
+
 
 	//Hi(package[0]); //Get header information
 	header = package[0]; //save header
