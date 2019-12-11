@@ -19,20 +19,15 @@ void GUI::setupGUI()
 	//std::cout << "I'm the setupGUI function" << '\n';
 
 	//Setup window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "General Secretary CMART's DTMF chat!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "DTMF-chat");
 	//window.setFramerateLimit(60);
 
 	sf::Image icon;
 	icon.loadFromFile("hammer.png");
 	window.setIcon(350,350,icon.getPixelsPtr());
 
-	// play music
-	//sf::Music music;
-	//music.openFromFile("ussr8bit.wav");
-	//music.play();
-
 	//Load text font
-	if (!font.loadFromFile("kremlin.ttf"))
+	if (!font.loadFromFile("sansation.ttf"))
 	{
 		// Should trow error
 		std::cout << "FONT FaiL!" << '\n';
@@ -40,7 +35,7 @@ void GUI::setupGUI()
 
 	// Make typing box
 	sf::RectangleShape typeBox(sf::Vector2f(window.getSize().x - (2 * edgeWidth), typeingBoxHeight));
-	typeBox.setFillColor(sf::Color::Yellow);
+	typeBox.setFillColor(sf::Color::Color(180, 180, 180, 80/*216, 216, 216, 85*/));
 	typeBox.move(edgeWidth, window.getSize().y - edgeWidth);
 
 
@@ -113,7 +108,7 @@ void GUI::setupGUI()
 		sf::Mutex mutex;
 		mutex.lock();
 
-		window.clear(sf::Color::Red);
+		window.clear(sf::Color::White);
 
 		float iterator = typeingBoxHeight + edgeWidth + textDisplacement;
 		//std::reverse(conversation.begin(), conversation.end());

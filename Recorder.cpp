@@ -62,7 +62,6 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	if (savingMessage == true)
 	{
 		saveRecording(currentFreqL, currentFreqH);
-		// convertFromDTMF(recordedMessage);
 			if (currentFreqL == 697 && currentFreqH == 1209)
 			{
 				if (lastFreqL == 697 && lastFreqH == 1209)

@@ -130,13 +130,6 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			toneL[i] = 128 * (63 * sin(i * piPoduct1L) + 63 * sin(i * piPoduct1U));
 		}
 
-		//// apply window
-		//int n = nSamples - 1;
-		//for (int i = 0; i < nSamples; i++) {
-		//	double multiplier = (1 - abs((i - (n / 2)) / ((n+2) / 2)));
-		//	toneL[i] = (multiplier * toneL[i]);
-		//}
-
 		duration = ((std::clock() - start) / (float)CLOCKS_PER_SEC) * 1000; // save time measured
 
 		// Play DTMF tone (sinewave)
@@ -148,8 +141,7 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			SoundL.play();
 			sf::sleep(sf::milliseconds(60));
 			SoundL.stop();
-			sf::sleep(sf::milliseconds(240 - duration)); // "pad" the signal with silence
-			//440 - duration
+			sf::sleep(sf::milliseconds(440 - duration)); // "pad" the signal with silence
 		}
 
 }
@@ -166,8 +158,6 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 		//{
 		//	float x = 0;
 		//	float y = 0;
-
-		//	const double TWO_PI = 6.28318;
 
 		//	for (unsigned n = 0; n < nSamples; n++) {
 		//		toneL[n] = (AMPLITUDE * sin(x*twoPi)) + (AMPLITUDE * sin(y*twoPi));
