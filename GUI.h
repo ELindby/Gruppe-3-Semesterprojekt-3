@@ -16,27 +16,23 @@ public:
 	GUI();
 	~GUI();
 
-	//static GUI& GUIinstance();
-
+	
 	void setupGUI();
-	//void addMessage(std::vector<std::bitset<8>> recievedMessage);
 	void addMessage();
+	void eventCheck(sf::RenderWindow &window);
+	void drawConversation(sf::RenderWindow& window);
+	void drawTyping(sf::RenderWindow& window);
 
+	
+	// Skal nedenstående være public?????
 	typedef std::pair<std::string, bool> conversationType;
 	//static conversationType staticConversationType;
 	std::vector<std::pair<std::string, bool>> conversation;
 
-	//// Test:
-	//static void test(std::vector<std::bitset<8>> recievedMessage);
-
-	////static std::vector<conversationType> bob;
-	//
-	//static std::vector<std::string> conversationString;
-	//static std::vector<bool> conversationBool;
-
+	
 private:
 	sf::Font font;
-	sf::Text drawableTypedText;
+	
 	sf::Thread gui_thread;
 
 	PackageSender packageSender;
@@ -51,7 +47,9 @@ private:
 	float edgeWidth = 40.0;
 	float typeingBoxHeight = 30.0;
 	float boxEdgeWidth = 10.0;
-	float textDisplacement = 30.0;
+	float textDisplacement = 10.0;
+	int nLines = 1;
+	float messageBoxLineHeight = 30.0;
 
 	//// special danish characters
 	//std::vector<int> specialCharacters = {230, 198, 248, 216, 229, 197};
