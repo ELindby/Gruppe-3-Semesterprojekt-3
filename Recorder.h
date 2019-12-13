@@ -14,8 +14,8 @@ public:
 	static bool pauseRecording;
 	static bool static_syncing;
 
-	void determineLow();
-	void determineHigh();
+	void determineLow(); //Determine Low DTMF tone
+	void determineHigh();//Determine High DTMF tone
 
 	virtual bool onProcessSamples(const sf::Int16* samples, std::size_t sampleCount);
 	float goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, std::vector<float>&windowedSignal);
