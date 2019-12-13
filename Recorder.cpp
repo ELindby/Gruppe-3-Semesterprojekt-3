@@ -42,7 +42,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		return true;
 	}
 
-	// start timer
+	// Start timer
 	if (sync == true)
 	{
 		begin = std::clock();
@@ -54,7 +54,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	std::thread t1(&DTMFRecorder::determineLow, this);
 	std::thread t2(&DTMFRecorder::determineHigh, this);
 
-	// wait for thread to finish
+	// Wait for thread to finish
 	t1.join();
 	t2.join();
 
@@ -75,7 +75,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			}
 	}
 
-	// if start signal is recorded -> start saving recordings
+	// If start signal is recorded -> start saving recordings
 	if (savingMessage == false)
 	{
 		if (currentFreqL == 941 && currentFreqH == 1633)
@@ -89,7 +89,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 		}
 	}
 
-	// If no dtmf tones heard -> false alarm -> stop saving
+	// If no DTMF tones heard -> false alarm -> stop saving
 	if (savingMessage == true)
 	{
 		if (currentFreqL == 0 && currentFreqH == 0)
@@ -98,8 +98,7 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 			{
 				std::cout << "false alarm" << std::endl;
 				savingMessage = false;
-				saveBuffer.clear(); // clear buffer
-				
+				saveBuffer.clear(); // Clear buffer
 			}
 		}
 	}
@@ -109,16 +108,6 @@ bool DTMFRecorder::onProcessSamples(const sf::Int16 * samples, std::size_t sampl
 	// Temporarily save this data
 	lastFreqL = currentFreqL;
 	lastFreqH = currentFreqH;
-
-	//// Constant Synchronization
-	//if(sync == true)
-	//{
-	//	duration = ((std::clock() - begin) / (double)CLOCKS_PER_SEC)*1000;
-	//	setProcessingInterval(sf::milliseconds(processInterval - avgProcessTime));
-	//	// std::cout << "Process time " << duration << " milliseconds" << std::endl;
-	//	// std::cout << "Next interval is " << processInterval - duration << " milliseconds" << std::endl;
-
-	//}
 
 	// Fixed Synchronization
 	if (sync == true)
@@ -371,14 +360,12 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 	// convert to char (for testing)
 	std::vector<char> messageAsString;
 
-	// Print message
+	// Print message, used for debugging purposes
 	for (int i = 0; i < unwrappedMessage.size(); i++)
 	{
-		// std::cout << unwrappedMessage[i];
 		unsigned long j = unwrappedMessage[i].to_ulong();
 		messageAsString.push_back(static_cast<unsigned char>(j));
 		std::cout << messageAsString[i];
-		//std::cout << std::bitset<8>(unwrappedMessage[i]);
 	}
 
 	std::cout << std::endl;
@@ -386,6 +373,6 @@ void DTMFRecorder::convertFromDTMF(std::vector<int>recordedMessage)
 	// clear buffer
 	saveBuffer.clear();
 
-	// deliver to datalink layer (deframe)
+	// Deliver to datalink layer (deframe)
 	deframer.UnPack(unwrappedMessage);
 }

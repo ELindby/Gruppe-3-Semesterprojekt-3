@@ -1,9 +1,4 @@
-//#include "send.h"
-//#include "receive.h"
 #include "Recorder.h"
-//#include "SoundGenerator.h"
-//#include "package_sender.h"
-//#include "deframe.h"
 #include "GUI.h"
 
 #include <SFML/Audio.hpp>
@@ -19,51 +14,30 @@
 #include <thread>
 
 int main() {
-	
 	// Check that audio is available
 	if (!sf::SoundRecorder::isAvailable())
 	{
 		std::cout << "Audio capture not available" << std::endl;
 	}
-	// create the recorder
+
+	// Create the recorder
 	DTMFRecorder recorder;
+
 	// Start recorder
-	recorder.start(8000); // argument = samplerate
+	recorder.start(8000); // Argument (8000) = samplerate
 
 	while (DTMFRecorder::static_syncing) //Åben først GUI når recorder er i sync
 	{
-		//Vent
+		//Wait
 	}
+
+	//Setup GUI thread
 	GUI gui_thread;
 	sf::Thread thread(&GUI::setupGUI, &gui_thread);
 	thread.launch();
 
-	//// Message input
-	//std::string input;
-	//getline(std::cin, input);
-
-	////convert to bitset
-	//std::vector<std::bitset<8>> msg;
-
-	//for (int i = 0; i < input.length(); i++)
-	//{
-	//	msg.push_back(std::bitset<8>(input[i]));
-	//}
-
-	//SoundGenerator generator;
-	//generator.convertToDTMF(msg);
-
-	//PackageSender sender;
-	//sender.SendMessage(msg);
-
-	// std::vector<std::bitset<8>> msg = { 0b00110011, 0b00110011 };
-
-	// PackageSender sender;
-	// sender.SendMessage(msg);
-
-
 	//Keep program from closing
-	Sleep(100000);
+	system("PAUSE");
 
 	return 0;
 }

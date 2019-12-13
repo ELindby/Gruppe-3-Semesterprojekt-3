@@ -20,6 +20,5 @@ public:
 	int lowtoneFrequency(char low);
 	int hightoneFrequency(char high);
 	void PlaySound(int lowDTMFL, int highDTMFL, int lowDTMFU, int highDTMFU);
-
 };
 

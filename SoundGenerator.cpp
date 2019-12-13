@@ -14,7 +14,6 @@ SoundGenerator::SoundGenerator()
 {
 }
 
-
 SoundGenerator::~SoundGenerator()
 {
 }
@@ -29,13 +28,13 @@ void SoundGenerator::convertToDTMF(std::vector<std::bitset<8>>& input)
 	std::vector<float> highFrequencies;
 	std::vector<float> lowFrequencies;
 
-	// add start signal
+	// Add start signal
 	lowFrequencies.push_back(941);
 	highFrequencies.push_back(1633);
 	lowFrequencies.push_back(941);
 	highFrequencies.push_back(1633);
 
-	// add message
+	// Add message
 	for (int i = 0; i < (input.size()); i++) {
 
 		// Masks upper and lower nipple of ASCII byte
@@ -59,7 +58,7 @@ void SoundGenerator::convertToDTMF(std::vector<std::bitset<8>>& input)
 		highFrequencies.push_back(highDTMFU);
 	}
 
-	// add end signal
+	// Add end signal
 	lowFrequencies.push_back(697);
 	highFrequencies.push_back(1209);
 	lowFrequencies.push_back(697);
@@ -118,7 +117,7 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 
 	for (int i = 0; i < (lowFrequencies.size()); i++)
 	{
-		std::clock_t start; // measure time to generate signal
+		std::clock_t start; // Measure time to generate signal
 		float duration;
 		start = std::clock();
 
@@ -130,7 +129,7 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			toneL[i] = 128 * (63 * sin(i * piPoduct1L) + 63 * sin(i * piPoduct1U));
 		}
 
-		duration = ((std::clock() - start) / (float)CLOCKS_PER_SEC) * 1000; // save time measured
+		duration = ((std::clock() - start) / (float)CLOCKS_PER_SEC) * 1000; // Save time measured
 
 		// Play DTMF tone (sinewave)
 		if ((!BufferL.loadFromSamples(toneL, nSamples, 1, wSampleRate))) {
@@ -141,26 +140,7 @@ void SoundGenerator::PlaySound(std::vector<float>& lowFrequencies, std::vector<f
 			SoundL.play();
 			sf::sleep(sf::milliseconds(60));
 			SoundL.stop();
-			sf::sleep(sf::milliseconds(440 - duration)); // "pad" the signal with silence
+			sf::sleep(sf::milliseconds(190 - duration)); // "pad" the signal with silence
 		}
 
 }
-
-	//// Sample sinewave (alternative method)
-		//const unsigned wSampleRate = 8000;
-		//const unsigned nSamples = 8000;
-		//const unsigned AMPLITUDE = 10000;
-
-		//sf::Int16 toneL[nSamples];
-		//const double twoPi = 6.28318;
-
-		//for (int i = 0; i < (lowFrequencies.size()); i++)
-		//{
-		//	float x = 0;
-		//	float y = 0;
-
-		//	for (unsigned n = 0; n < nSamples; n++) {
-		//		toneL[n] = (AMPLITUDE * sin(x*twoPi)) + (AMPLITUDE * sin(y*twoPi));
-		//		x += lowFrequencies[i] / wSampleRate;
-		//		y += highFrequencies[i] / wSampleRate;
-		//	}

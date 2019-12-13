@@ -16,28 +16,24 @@ public:
 	Frame();
 	~Frame();
 
-	//void MessageCutter(char message[]); //Del beskeden op i bider af data
+	void MessageCutter(std::vector<std::bitset<8>> message); //Cuts recieved message into the right size payloads, and incapsulates them in frames
 
-	void MessageCutter(std::vector<std::bitset<8>> message);
-
-	std::vector<std::vector<std::bitset<8>>> GetPackages(); //Til Test af deframe
-
-	void PrintMsgSliced();
+	std::vector<std::vector<std::bitset<8>>> GetPackages(); //Getter for package framed
 
 private:
 
 	std::vector<std::vector<std::bitset<8>>> slicedMessage;
 
-	const int maxDataSize = 2;//31; //Max antal bytes i datagrammet.
+	const int maxDataSize = 20; //Datagram (payload) max length, how many characters can max. be stored in a package
 
-	//Til header_____________
-	std::bitset<8> AddHeader(bool lastPackage, int size);
+	//Header
+	std::bitset<8> AddHeader(bool lastPackage, int size); //Adds header to package
 
-	static std::bitset<1> sq; //seq. nr. bit
-	std::bitset<5> dataSize; //Antal bytes i pakken
-	std::bitset<1> sp; //sidste pakke flag
+	static std::bitset<1> sq; //sq flag, represents the sequence number
+	std::bitset<5> dataSize;  //Amount of bytes in package
+	std::bitset<1> sp;		  //sp flag, 1 for last package in a transmission, 0 for all others
 
-	//Til trailer____________
-	void AddTrailer(std::vector<std::bitset<8>> headerAndDatagram);
-	std::bitset<8> trailer = 0b11111111; //Midlertidig værdi
+	//Trailer
+	void AddTrailer(std::vector<std::bitset<8>> headerAndDatagram); //Adds trailer to package
+	std::bitset<8> trailer = 0b11111111; //Temporary value
 };

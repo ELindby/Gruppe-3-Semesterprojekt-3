@@ -3,22 +3,18 @@
 CRC::CRC(){}
 CRC ::~CRC(){}
 
-std::vector<int> CRC::senderPreb(std::vector<int> messageInput)  // The vector should look like { 1, 0, 1, 0, 1, 0, 0, 0, 1 }
+std::vector<int> CRC::senderPrep(std::vector<int> messageInput)  //Generates codeword for input message
 {
 	int messageLength = messageInput.size();
 
 	//Copy array into another arrays for processing
-
 	temp = messageInput;
-	//finalMessage = messageInput;
-
 
 	//Padding some zeros on the end of the message
 	for (int i = messageLength; i < genLength + (messageLength - 1); i++)
 	{
 		temp.push_back(0);
 	}
-
 
 	for (int i = 0; i < messageLength; i++) //Bitwise division
 	{
@@ -41,14 +37,7 @@ std::vector<int> CRC::senderPreb(std::vector<int> messageInput)  // The vector s
 	for (int i = 0; i < genLength - 1; i++)
 	{
 		codeWord.push_back(temp[messageLength + i]);
-		/// std::cout << codeWord[i];
 	}
-
-	// Add CRC-check "sum" to the message to be transmitted.
-	//for (int i = 0; i < genLength - 1; i++)
-	//{
-	//	finalMessage.push_back(codeWord[i]);
-	//}
 
 	// Returns the final message as a vector containing int
 	return codeWord;
@@ -56,10 +45,8 @@ std::vector<int> CRC::senderPreb(std::vector<int> messageInput)  // The vector s
 
 bool CRC::receiverCheck(std::vector<int> messageInput)
 {
-
 	int messageLength = messageInput.size();
 	temp = messageInput;
-
 
 	for (int i = 0; i < messageLength - 1; i++) //Bitwise division
 	{

@@ -5,18 +5,18 @@ Frame::~Frame() {};
 
 std::bitset<1> Frame::sq = 0;
 
-std::bitset<8> Frame::AddHeader(bool lastPackage, int size) {
+std::bitset<8> Frame::AddHeader(bool lastPackage, int size) { //Add header to package
 	std::string header;
 
 	dataSize = std::bitset<5>(size);
-	sp = std::bitset<1>(lastPackage);
+	sp = std::bitset<1>(lastPackage); //last package flag
 	sq = ~sq; //seq. nr. bit
 	header = sq.to_string() + sp.to_string() + "0" + dataSize.to_string();
 	return std::bitset<8>(header);
 }
 
-void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
-
+void Frame::MessageCutter(std::vector<std::bitset<8>> message) 
+{
 	int byteIndex = 0;
 	int pckIndex = 0;
 	int msgSize = message.size();
@@ -27,22 +27,22 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 	int datagramSize = 0;
 	int dataLeft;
 
-	if (msgSize <= 0) //Hvis besked er tom. Tilføj kun header og Trailer
+	if (msgSize <= 0) //If message is empty, only add header and trailer (If message is empty, it's an acknowledge package)
 	{
 		lastPck = true;
 
-		datagram = { (AddHeader(lastPck, datagramSize)) }; //Tilføj header
+		datagram = { (AddHeader(lastPck, datagramSize)) }; //Add header to package
 
 		AddTrailer(datagram);
-		datagram.push_back(trailer); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+		datagram.push_back(trailer); //Add trailer to package
 
-		slicedMessage.push_back(datagram);
+		slicedMessage.push_back(datagram); //Adds completed frame to list of frames
 		return;
 	}
 
-	while (byteIndex < msgSize) //Er betingelsen IKKE opfyldt
+	while (byteIndex < msgSize) //Runs through the entire message.
 	{
-		datagram = {}; //tøm datagram vektor
+		datagram = {}; //Clear datagram (payload)
 
 		pckIndex++;
 		dataLeft = msgSize - byteIndex;
@@ -50,7 +50,7 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 		{
 			if (i < dataLeft)
 			{
-				datagram.push_back(message[byteIndex]); //int(message[i]) parse char til decimal-tal
+				datagram.push_back(message[byteIndex]); //int(message[i]) parse char to decimal
 				byteIndex++;
 			}
 		}
@@ -60,17 +60,13 @@ void Frame::MessageCutter(std::vector<std::bitset<8>> message) {
 			lastPck = true;
 		}
 
-		std::cout << lastPck << std::endl; // debug
-
 		datagramSize = datagram.size();
+		datagram.insert(datagram.begin(), AddHeader(lastPck, datagramSize)); //Add header to package
 
-		datagram.insert(datagram.begin(), AddHeader(lastPck, datagramSize)); //Tilføj header til pakke
-
-																			 //!Det er er vigtigt at header kommer på før datagrammet! 
 		AddTrailer(datagram);
-		datagram.push_back(trailer); //Tilføj trailer til pakke (SKAL HAVE HEADER MED)
+		datagram.push_back(trailer); //Add trailer to package
 
-		slicedMessage.push_back(datagram); //Indsæt pakke i Array med paker der udgør en besked
+		slicedMessage.push_back(datagram); //Adds completed frame to list of frames
 	}
 }
 
@@ -84,8 +80,7 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 	std::vector<std::bitset<8>> hd = headerAndDatagram;
 	std::vector<int> tempByte;
 	std::vector<int> toCRC = {};
-	//std::vector<int> testdata = {1,1,0,0,0,0,0,1,0,1,0,0,1,0,0,0};
-
+	
 	std::vector<int> fromCRC = {};
 	std::string str_codeWord = "";
 
@@ -97,41 +92,11 @@ void Frame::AddTrailer(std::vector<std::bitset<8>> headerAndDatagram) {
 		}
 	}
 
-	//_________________TIL TEST_______toCRC vektor<int> 
-	//for (size_t i = 0; i < toCRC.size(); i++)
-	//{
-	//	std::cout << toCRC[i] << ",";
-	//}
-	//std::cout << std::endl;
-	//_____________
-
-	fromCRC = crcClass.senderPreb(toCRC); //Få Codeword
-
-	//std::cout << " " << fromCRC.size() << std::endl;
+	fromCRC = crcClass.senderPrep(toCRC); //Get Codeword
 
 	for (size_t i = 0; i < fromCRC.size(); i++)
 	{
-		//std::cout << fromCRC[i] << " ";
 		str_codeWord += std::to_string(fromCRC[i]);
 	}
-	//trailer = std::bitset<8>(str_codeWord);
-	trailer = std::bitset<8>(str_codeWord).set(7); //.set(7) laver bit på plads 7 til 1: [1]xxxxxxx
-}
-
-//TIL TESTING
-void Frame::PrintMsgSliced() {
-	for (size_t i = 0; i < slicedMessage.size(); i++)
-	{
-		std::vector<std::bitset<8>> frame = slicedMessage[i];
-		int l = frame.size();
-
-		std::cout << "{";
-		for (size_t t = 0; t < l; t++)
-		{
-			std::cout << frame[t] << ", ";
-		}
-		std::cout << "}" << std::endl;
-		std::cout << "Datagram size:" << frame.size() - 2 << std::endl;
-	}
-	std::cout << "Der er " << slicedMessage.size() << " pakker" << std::endl;
+	trailer = std::bitset<8>(str_codeWord).set(7); //.set(7) sets bit at 7 to 1: [1]xxxxxxx
 }

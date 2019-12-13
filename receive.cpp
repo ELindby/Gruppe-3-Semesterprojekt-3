@@ -5,11 +5,9 @@
 
 receive::receive(){
 	assert(sf::SoundBufferRecorder::isAvailable());
-
-
-
 	system("pause");
 }
+
 receive::~receive(){}
 
 float receive::goertzel(std::size_t numSamples, unsigned int TARGET_FREQUENCY, unsigned int SAMPLING_RATE, const sf::Int16* data) {

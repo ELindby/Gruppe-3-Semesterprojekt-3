@@ -6,78 +6,70 @@ PackageCollector::PackageCollector() {}
 PackageCollector::~PackageCollector() {}
 
 std::vector<std::bitset<8>> PackageCollector::packageContainer;
-//bool PackageCollector::static_spFlag;
-
 
 void PackageCollector::AddToCollector(bool crc, bool dc, int dataSize, bool spFlag, std::vector<std::bitset<8>> datagram) {
 	std::cout << "spFlag" << spFlag << std::endl;
 
-	//Se først om pakken "består crc"
+	//Check if package passes CRC
 	if (!crc)
 	{
 		std::cout << "CRC FEJL" << std::endl;
 		return;
 	}
 
-	//Send ikke ACK til ack
+	//Dont reply ACK to an ACK message
 	if (DeFrame::ack)
 	{
-		std::cout << "modtog ack " << spFlag << std::endl;
+		std::cout << "Recieved ACK " << spFlag << std::endl;
 		return;
 	}
 
 	std::cout << "spFlag: " << spFlag << std::endl;
 
-	//Se om pakken er en dublet
+	//Check if package is a dublet
 	if (dc)
 	{
-		std::cout << "Dublet modtaget" << std::endl;
+		std::cout << "Dublet recieved" << std::endl;
 		SendACK();
 		return;
 	}
 
 	SendACK();
 
-	//Tilføj til packageContainer hvis ingen fejl og ikke dublet
+	//Add to packageContainer if no errors, and message isnt a dublet
 	for (size_t i = 0; i < dataSize; i++)
 	{
 		PackageCollector::packageContainer.push_back(datagram[i]);
 	}
 
-	//for (size_t i = 0; i < packageContainer.size(); i++)
-	//{
-	//	std::cout << packageContainer[i];
-	//}
-
-	//Se om pakken er den sidste i beskeden
+	//If last package in a transmission
 	if (spFlag)
 	{
-		//MessageToApp(); //Kalder funktion fra applikations laget til at display beskeden
 		for (size_t i = 0; i < packageContainer.size(); i++)
 		{
 			std::cout << packageContainer[i];
 		}
 		std::cout << std::endl;
 
-		static_spFlag = spFlag; //Dette flag skal bruges af GetMsg()
+		static_spFlag = spFlag; //Set public sp flag so Application layer knows a complete transmission has been recieved and a message is ready to be displayed
 	}
 	return;
 }
 
-void PackageCollector::SendACK() {
+void PackageCollector::SendACK() { //Send acknowledge package
 
-	std::cout << "Sender ack" << std::endl;
+	std::cout << "Sending ack" << std::endl;
 
-	DTMFRecorder::pauseRecording = true; // stop med at lytte
+	DTMFRecorder::pauseRecording = true; //Stop listening, Half Duplex
 
 	Frame framer;
 	SoundGenerator sg;
 
-	framer.MessageCutter(std::vector<std::bitset<8>>{}); //Lav ack pakke
+	framer.MessageCutter(std::vector<std::bitset<8>>{}); //Create ACK package
 
 	sg.convertToDTMF(framer.GetPackages()[0]);
 
-	DTMFRecorder::pauseRecording = false; // start med at lytte
+	DTMFRecorder::pauseRecording = false; //Start listening again
 }
 
 std::vector<std::bitset<8>> PackageCollector::GetMsg() {

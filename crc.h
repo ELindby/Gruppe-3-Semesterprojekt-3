@@ -11,7 +11,7 @@ public:
 	CRC();
 	~CRC();
 
-	std::vector<int> senderPreb(std::vector<int> messageInput);
+	std::vector<int> senderPrep(std::vector<int> messageInput);
 	bool receiverCheck(std::vector<int> messageInput);
 
 private:

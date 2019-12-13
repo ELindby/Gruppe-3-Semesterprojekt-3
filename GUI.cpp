@@ -3,7 +3,6 @@
 
 GUI::GUI() : gui_thread(&GUI::setupGUI, this)
 {
-	//std::cout << "I'm the gui thread" << '\n';
 }
 
 GUI::~GUI()
@@ -11,23 +10,20 @@ GUI::~GUI()
 }
 
 bool PackageCollector::static_spFlag;
-//std::vector<std::bitset<8>> PackageCollector::GetMsg();
-//std::vector<std::bitset<8>> PackageCollector::packageContainer;
 
 void GUI::setupGUI()
 {
 	//Setup window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "DTMF-chat");
-	//window.setFramerateLimit(60);
 
 	sf::Image icon;
-	icon.loadFromFile("hammer.png");
+	icon.loadFromFile("phoneIcon.png");
 	window.setIcon(350,350,icon.getPixelsPtr());
 
 	//Load text font
 	if (!font.loadFromFile("sansation.ttf"))
 	{
-		// Should trow error
+		// Should throw error
 		std::cout << "FONT FaiL!" << '\n';
 	}
 
@@ -46,11 +42,6 @@ void GUI::setupGUI()
 		drawTyping(window);
 		drawConversation(window);
 
-
-		//addMessage(PackageCollector::GetMsg()); //Tilføjer modtaget besked til display listen
-		// PackageCollector::clearContainer(); //Clear container
-
-		//std::cout << '\n' << "window display" << '\n';
 		window.display();
 
 		mutex.unlock();
@@ -61,12 +52,10 @@ void GUI::setupGUI()
 
 void GUI::addMessage()
 {
-	
-	if (!PackageCollector::static_spFlag) //Gå ud af scope hvis det ikke er den sidste pakke i beskeden.
+	if (!PackageCollector::static_spFlag) //Checks if PackageCollector has a complete message ready
 	{
 		return; 
 	}
-	//std::cout << "PackCol spFlag: " << PackageCollector::static_spFlag;
 	std::vector<std::bitset<8>> recievedMessage = PackageCollector::GetMsg();
 
 	std::string recievedMessageAsString = "";
@@ -74,8 +63,6 @@ void GUI::addMessage()
 	{
 		recievedMessageAsString += recievedMessage[i].to_ulong();
 	}
-
-	//std::cout << "adMessage function" << '\n';
 
 	// Adds recieved message to printed conversation
 	conversation.emplace_back(recievedMessageAsString, false); // true: I sent the message & false: I recieved the message
@@ -89,8 +76,6 @@ void GUI::eventCheck(sf::RenderWindow& window)
 	sf::Event event;
 	while (window.pollEvent(event))
 	{
-		//std::cout << "poll event tjek" << '\n';
-
 		// Window closed
 		if (event.type == sf::Event::Closed)
 		{
@@ -107,13 +92,9 @@ void GUI::eventCheck(sf::RenderWindow& window)
 			// Send message by pressing enter
 			else if (event.text.unicode == 13 && typedText.size() != 0) //Test for "Enter" key
 			{
-				//// add typedText to 
-				//pendingMessages.push_back(typedText);
-
 				// Send message as vector of bitset<8> to Data Link Layer 
 				std::string nextMessage = typedText;
 				conversation.emplace_back(nextMessage, true); // true: I sent the message & false: I recieved the message
-
 
 				// Send typedText to Data link layer
 				nextMessageAsBitset = {};
@@ -125,32 +106,21 @@ void GUI::eventCheck(sf::RenderWindow& window)
 
 				packageSender.SendMessageA(nextMessageAsBitset);
 
-
-				// empty typedText temp
+				// Clear typedText temp
 				typedText = "";
 			}
 
-			else /*if (event.text.unicode < 128 || std::find(specialCharacters.begin(), specialCharacters.end(), event.text.unicode) != specialCharacters.end() )*/
+			else
 			{
-				//std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) <<  std::endl;	
-				//std::cout << "unicode for typed character: " << event.text.unicode << std::endl;
-
-				//typedText.push_back((char)event.text.unicode);
-
-				typedText.push_back(static_cast<char>(event.text.unicode));
+				typedText.push_back(static_cast<char>(event.text.unicode)); //Add typed character to typedText
 			}
-
-			//std::cout << "TypedText: " << typedText << std::endl;
 		}
-
 	} // End of event poll check
-
 }
 
 void GUI::drawConversation(sf::RenderWindow& window)
 {
-	float offset = typeingBoxHeight*nLines + edgeWidth + textDisplacement*2;
-	//std::reverse(conversation.begin(), conversation.end());
+	float offset = typeingBoxHeight*nLines + edgeWidth + textDisplacement*2; //Offset from bottom of screen, decides where messages will be printed
 	for (int i = conversation.size() - 1; i > -1; i--)
 	{
 		//Setup linesplit
@@ -164,23 +134,17 @@ void GUI::drawConversation(sf::RenderWindow& window)
 			remainderUpTo32b = tempMessageText.size();
 
 		std::string tempLineText = tempMessageText.substr(0, remainderUpTo32b);
-		//tempMessageText.erase(0, remainderUpto32);
-
-		// Setup textMessage and box:
-		// Setup textMessage
-		sf::Text textMessage;
+		
+		//Create temporary first line, only used to set the size of the text bubble
+		sf::Text textMessage; 
 		textMessage.setFont(font);
 		textMessage.setCharacterSize(24);
-
 		textMessage.setString(tempLineText);
 
-		// Make Textbox
+		//Make Textbox
 		sf::FloatRect textBounds = textMessage.getLocalBounds();
 		textBounds.height += 2.0;
 		sf::RectangleShape textMessageBox(sf::Vector2f(textBounds.width + (boxEdgeWidth * 2), textBounds.height*mLines + (boxEdgeWidth*2)));
-
-		/*typeBox.setSize(sf::Vector2f(window.getSize().x - (2 * edgeWidth), typeingBoxHeight * nLines));
-		typeBox.move(edgeWidth, window.getSize().y - edgeWidth - typeingBoxHeight * (nLines - 1));*/
 
 		float wordWrapOffset = ((float) mLines - 1.) * textBounds.height;
 		if (conversation[i].second)
@@ -199,7 +163,7 @@ void GUI::drawConversation(sf::RenderWindow& window)
 
 		for (size_t j = 0; j < mLines; j++)
 		{
-			// Setup: TypedText
+			// Setup single line to be printed
 			sf::Text drawableTempMessageText;
 			drawableTempMessageText.setFont(font);
 			drawableTempMessageText.setCharacterSize(24);
@@ -213,7 +177,7 @@ void GUI::drawConversation(sf::RenderWindow& window)
 
 			drawableTempMessageText.setString(tempLineText);
 
-			// move messages to the right position in the frame
+			//Move messages to the right position in the frame
 			if (conversation[i].second)
 			{
 				// If I sent the message
@@ -228,21 +192,16 @@ void GUI::drawConversation(sf::RenderWindow& window)
 			}
 			window.draw(drawableTempMessageText);
 		}
-
-		offset += textMessageBox.getLocalBounds().height + textDisplacement; // iterator til teksforskydning
-
+		offset += textMessageBox.getLocalBounds().height + textDisplacement; //Update offset after printing a message
 	}
 }
 
-void GUI::drawTyping(sf::RenderWindow& window)
+void GUI::drawTyping(sf::RenderWindow& window) //Draws the Typing box at the bottom of the screen
 {
 	// Make typing box
 	sf::RectangleShape typeBox;
 	typeBox.setFillColor(sf::Color::Color(180, 180, 180, 80/*216, 216, 216, 85*/));
 
-	
-
-	
 	//drawableTypedText.getLocalBounds().width < window.getSize().x - edgeWidth * 2
 	if (typedText.size() < 32)
 	{
@@ -261,11 +220,9 @@ void GUI::drawTyping(sf::RenderWindow& window)
 		// Draw typing and typing box
 		window.draw(typeBox);
 		window.draw(drawableTypedText);
-
 	}
 	else
 	{
-		
 		float sizeRatio = (float)typedText.size() / (float)32;
 		nLines = ceil(sizeRatio);
 
@@ -293,7 +250,5 @@ void GUI::drawTyping(sf::RenderWindow& window)
 			drawableTempTypedText.move(edgeWidth + boxEdgeWidth, window.getSize().y - edgeWidth - (nLines-1) * typeingBoxHeight + i * typeingBoxHeight);
 			window.draw(drawableTempTypedText);
 		}
-
 	}
-
 }

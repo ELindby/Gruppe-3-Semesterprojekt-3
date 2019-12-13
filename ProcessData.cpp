@@ -11,7 +11,6 @@ ProcessData::ProcessData()
 {
 }
 
-
 ProcessData::~ProcessData()
 {
 }

@@ -15,33 +15,30 @@ public:
 
 	CRC crcClass;
 
-	static bool ack; //Er true hvis pakken er et ack
+	static bool ack; //Is true if package is an acknowledge
 
 	void UnPack(std::vector<std::bitset<8>> package);
 	std::vector<std::bitset<8>> getDatagram();
+
+	//Getters
 	bool getAckFlag();
 	bool getSpFlag();
 	bool DoubletCheck();
 	bool CrcCheck();
 
-	std::vector<std::bitset<8>> getPackageContainer();
-
 private:
 
-	//______Til Information om header________
-	void Hi(std::bitset<8> package); //Header information i argument pakke
+	//Header information
+	void Hi(std::bitset<8> package); //Sets Header Information from package
 	std::bitset<8> header;
+	bool sq = 0; //sq flag, represents the sequence number
+	int dataSize; //Amount of bytes in package
+	bool sp = 0; //sp flag, 1 for last package in a transmission, 0 for all others
 
-	bool sq = 0; //seq. nr. bit
-	int dataSize; //Antal bytes i pakken
-	bool sp = 0; //Er det sidste pakke i beskeden
+	
+	std::vector<std::bitset<8>> datagram; //Datagram (payload)
 
-	//______Datagram
-	std::vector<std::bitset<8>> datagram;
+	bool oldsq = 0; //Used for dublet check, sq flag of previous package recieved
 
-	//______Til Dublet check________
-	bool oldsq = 0;
-
-	//______Til CRC_______
-	std::bitset<8> trailer;
+	std::bitset<8> trailer; //Package trailer, contains CRC codeword and used for CRC check
 };
