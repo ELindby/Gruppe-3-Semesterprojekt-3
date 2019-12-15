@@ -75,6 +75,7 @@ void DeFrame::UnPack(std::vector<std::bitset<8>> package) {
 	//Add to Package Collector
 	crcCheck = CrcCheck();
 	if (!crcCheck) {
+		std::cout << "CRC caught an error and discarded the package\n";
 		sq = oldsq;
 		sp = false; //if package is discarded, sp (which was of last package) will always be 0, as a new package should always be recieved afterwards.
 		return;
